@@ -1,0 +1,62 @@
+{
+    "points": {
+        "A": {},
+        "B": {},
+        "C": {},
+        "D": {},
+        "E": {},
+        "F": {}
+    },
+    "lines": {
+        "AB": {"ends": ["A", "B"], "length": "UNKNOWN"},
+        "AC": {"ends": ["A", "C"], "length": "UNKNOWN"},
+        "AD": {"ends": ["A", "D"], "length": "UNKNOWN"},
+        "AE": {"ends": ["A", "E"], "length": "UNKNOWN"},
+        "BC": {"ends": ["B", "C"], "length": "UNKNOWN"},
+        "BD": {"ends": ["B", "D"], "length": "UNKNOWN"},
+        "BE": {"ends": ["B", "E"], "length": "UNKNOWN"},
+        "BF": {"ends": ["B", "F"], "length": "UNKNOWN"},
+        "CD": {"ends": ["C", "D"], "length": "UNKNOWN"},
+        "CE": {"ends": ["C", "E"], "length": "UNKNOWN"},
+        "CF": {"ends": ["C", "F"], "length": "UNKNOWN"},
+        "DF": {"ends": ["D", "F"], "length": "UNKNOWN"}
+    },
+    "angles": {
+        "BAC": {"sides": ["AB", "AC"], "angle": "degree:45"},
+        "ABC": {"sides": ["AB", "BC"], "angle": "UNKNOWN"},
+        "ABE": {"sides": ["AB", "BE"], "angle": "degree:40"},
+        "CBE": {"sides": ["BE", "BC"], "angle": "UNKNOWN"},
+        "DBE": {"sides": ["AC", "CD"], "angle": "degree:25"},
+        "ACB": {"sides": ["AC", "BC"], "angle": "UNKNOWN"},
+        "BCD": {"sides": ["BC", "CD"], "angle": "UNKNOWN"},
+        "ACD": {"sides": ["BC", "CD"], "angle": "UNKNOWN"},
+        "ADB": {"sides": ["BD", "AD"], "angle": "degree:180"},
+        "BDC": {"sides": ["BD", "CD"], "angle": "UNKNOWN"},
+        "ADC": {"sides": ["AD", "CD"], "angle": "UNKNOWN"},
+        "AEC": {"sides": ["AE", "CE"], "angle": "degree:180"},
+        "AEB": {"sides": ["AE", "BE"], "angle": "UNKNOWN"},
+        "BEC": {"sides": ["BE", "CE"], "angle": "UNKNOWN"},
+        "DFE": {"sides": ["DF", "EF"], "angle": "UNKNOWN"},
+        "CFD": {"sides": ["DF", "CF"], "angle": "degree:180"},
+        "BFD": {"sides": ["DF", "BF"], "angle": "UNKNOWN"},
+        "BFC": {"sides": ["BF", "CF"], "angle": "UNKNOWN"},
+        "CFE": {"sides": ["EF", "CF"], "angle": "UNKNOWN"},
+        "BFE": {"sides": ["EF", "CF"], "angle": "degree:180"}
+    },
+    "triangles": {
+        "ABE": {"sides": ["AB", "AE", "BE"], "angles": ["AEB", "ABE", "BAC"], "area": "UNKNOWN"},
+        "ACD": {"sides": ["AC", "AD", "CD"], "angles": ["ADC", "ACD", "BAC"], "area": "UNKNOWN"},
+        "ABC": {"sides": ["AB", "AC", "BC"], "angles": ["ACB", "ABC", "BAC"], "area": "UNKNOWN"},
+        "BCD": {"sides": ["BC", "BD", "CD"], "angles": ["BDC", "BCD", "ABC"], "area": "UNKNOWN"},
+        "BCE": {"sides": ["BC", "BE", "CE"], "angles": ["BEC", "ACB", "CBE"], "area": "UNKNOWN"},
+        "BCF": {"sides": ["BC", "BF", "CF"], "angles": ["BFC", "BCD", "CBE"], "area": "UNKNOWN"},
+        "BDF": {"sides": ["BD", "DF", "BF"], "angles": ["BFD", "ABE", "BDC"], "area": "UNKNOWN"},
+        "CEF": {"sides": ["CE", "CF", "EF"], "angles": ["CFE", "BEC", "ACD"], "area": "UNKNOWN"}
+    },
+    "associations": {
+        "parallel_lines": [],
+        "similar_triangles": [],
+        "congruent_triangles": []
+    },
+    "targets": ["CFE.angle", "BDC.angle"]
+}
