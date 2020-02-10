@@ -16,6 +16,12 @@ class Entity(object):
     def add_entities(self, entities: List):
         for entity in entities:
             self.add_entity(entity)
+
+    def find_child(self, id_, type_=None):
+        for entity in self.children:
+            if type_ is not None and type(entity) == type_:
+                return entity
+        return None
     
     def __str__(self):
         return '(' \
