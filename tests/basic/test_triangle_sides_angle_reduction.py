@@ -12,19 +12,19 @@ def create_triangle():
     pb = Point('B')
     pc = Point('C')
     
-    line_ab = Line('AB', ends=[pa, pb], length=3)
-    line_bc = Line('BC', ends=[pb, pc], length=4)
-    line_ac = Line('AC', ends=[pa, pc], length=5)
+    line_ab = Line('AB', ends=[pa, pb], length=None)
+    line_bc = Line('BC', ends=[pb, pc], length=2)
+    line_ac = Line('AC', ends=[pa, pc], length=1)
     
     angle_abc = Angle('ABC', sides=[line_ab, line_bc], angle=None)
-    angle_acb = Angle('ACB', sides=[line_ac, line_bc], angle=None)
+    angle_acb = Angle('ACB', sides=[line_ac, line_bc], angle=60)
     angle_bac = Angle('BAC', sides=[line_ab, line_ac], angle=None)
 
     triangle = Triangle('ABC', 
                         vertexes=[pa, pb, pc],
                         sides=[line_ab, line_bc, line_ac], 
                         angles=[angle_acb, angle_bac, angle_abc], 
-                        area=6)
+                        area=None)
     return triangle
 
 
@@ -38,8 +38,8 @@ def create_problem(entity):
 
 def create_target(triangle):
     target = Target(TargetType.EVALUATION,
-                    entity=triangle.angles[2],
-                    attr='angle')
+                    entity=triangle,
+                    attr='area')
     return target
 
 
