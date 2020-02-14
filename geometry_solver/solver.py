@@ -1,62 +1,75 @@
-from typing import List
+from typing import List, Callable, Union
 
 import numpy as np
 
 from geometry_solver.entities.entity import Entity
+from geometry_solver.relationships.relationship import Relationship
 from geometry_solver import theory_manager
-import geometry_solver.theories.theory_for_triangle
+from geometry_solver.problem import Problem
 from geometry_solver.target import Target
+# import geometry_solver.theories.theory_for_triangle
+import geometry_solver.theories.theory_for_collineation
 
 
 class Solver(object):
 
 
-    class EntityTheoryPair(object):
+    class TheoryObjectPair(object):
         
-        def __init__(self, entity: Entity, theory):
-            self.entity = entity
+        def __init__(self, theory: Callable, obj: Union[Entity, Relationship]):
+            self.object = obj
             self.theory = theory
 
+        def deduct(self):
+            self.theory.__call__(self.object)
+
         def __str__(self):
-            return '(entity: ' \
-                + str(type(self.entity).__name__) \
+            return '(object: ' \
+                + str(type(self.object).__name__) \
                 + ' ' \
-                + str(self.entity.id) \
+                + str(self.object.id) \
                 + ', theory: ' \
                 + str(self.theory.__name__) \
                 + ')'
 
 
-    def __init__(self, problem: Entity, targets: List[Target] = []):
+    def __init__(self, problem: Problem, targets: List[Target] = []):
         self._problem = problem
         self._targets = []
 
     def add_target(self, target: Target) -> None:
         self._targets.append(target)
 
-    def solve(self) -> Entity:
+    def solve(self) -> Problem:
         print('solving problem....')
-        entity_theory_pairs = []
-        for e in self._problem.children:
-            theories = theory_manager.theories_suit_to_entity(e)
+        theory_obj_pairs = []
+        objects = list(self._problem.entity.children) \
+                  + self._problem.relationships
+        for obj in objects:
+            theories = theory_manager.theories_suit_to_object(obj)
             for t in theories:
-                pair = self.EntityTheoryPair(e, t)
-                entity_theory_pairs.append(pair)
-        print('Make {} entity-theory pairs.'.format(len(entity_theory_pairs)))
+                pair = Solver.TheoryObjectPair(t, obj)
+                theory_obj_pairs.append(pair)
+        print('Make {} entity-theory pairs.'.format(len(theory_obj_pairs)))
 
         epoch = 0
         while not self._solved:
-            pair = np.random.choice(entity_theory_pairs)
-            pair.theory(pair.entity)
+            if not theory_obj_pairs:
+                break
+            pair = np.random.choice(theory_obj_pairs)
+            pair.deduct()
             print('epoch {}: chose {} to search.'.format(epoch, pair))
             epoch += 1
+            break
 
-        print('Solve problem successfully! Here are results:')
-        for target in self._targets:
-            print(target)
+        if self._solved:
+            print('Solve problem successfully! Here are results:')
+            for target in self._targets:
+                print(target)
+        else:
+            print('The problem has no solution')
         
         return self._problem
-    
 
     @property
     def _solved(self) -> bool:

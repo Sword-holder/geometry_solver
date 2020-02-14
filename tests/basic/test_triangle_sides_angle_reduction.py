@@ -3,11 +3,12 @@ from geometry_solver.entities.entity import Entity
 from geometry_solver.entities.line import Line
 from geometry_solver.entities.point import Point
 from geometry_solver.entities.triangle import Triangle
+from geometry_solver.problem import Problem
 from geometry_solver.solver import Solver
 from geometry_solver.target import Target, TargetType
 
 
-def create_triangle():
+def create_problem():
     pa = Point('A')
     pb = Point('B')
     pc = Point('C')
@@ -25,29 +26,28 @@ def create_triangle():
                         sides=[line_ab, line_bc, line_ac], 
                         angles=[angle_acb, angle_bac, angle_abc], 
                         area=None)
-    return triangle
-
-
-def create_problem(entity):
-    problem = Entity('basic problem: test triangle sides angle reduction')
-    problem.add_entity(entity)
+    
+    entity = Entity('basic problem: test triangle sides angle reduction')
+    entity.add_entity(triangle)
+    
+    problem = Problem(entity=entity)
     print('Create a triangle successfully!')
     print(problem)
     return problem
 
 
-def create_target(triangle):
+def create_target(problem):
     target = Target(TargetType.EVALUATION,
-                    entity=triangle,
+                    entity=problem.entity.find_child('ABC', Triangle),
                     attr='area')
     return target
 
 
 def test_triangle_sides_angle_reduction():
-    triangle = create_triangle()
-    problem = create_problem(triangle)
-    target = create_target(triangle)
+    problem = create_problem()
+    target = create_target(problem)
     solver = Solver(problem)
     solver.add_target(target)
-    solver.solve()
+    problem = solver.solve()
+    print(problem.entity.find_child('ABC', Triangle))
 

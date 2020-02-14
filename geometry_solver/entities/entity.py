@@ -19,8 +19,11 @@ class Entity(object):
 
     def find_child(self, id_, type_=None):
         for entity in self.children:
-            if type_ is not None and type(entity) == type_:
-                return entity
+            if entity.id == id_:
+                if type_ is None:
+                    return entity
+                elif type(entity) == type_:
+                    return entity
         return None
     
     def __str__(self):

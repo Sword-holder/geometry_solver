@@ -1,6 +1,7 @@
-from typing import List, Callable
+from typing import List, Callable, Union
 
 from geometry_solver.entities.entity import Entity
+from geometry_solver.relationships.relationship import Relationship
 
 
 class TheoryManager(object):
@@ -19,8 +20,8 @@ class TheoryManager(object):
             self._theoies[obj] = []
         self._theoies[obj].append(theoy_func)
 
-    def theories_suit_to_entity(self, entity: Entity) -> List:
-        class_ = type(entity)
+    def theories_suit_to_object(self, obj: Union[Entity, Relationship]) -> List:
+        class_ = type(obj)
         if class_ not in self._theoies:
             return []
         return self._theoies[class_]
