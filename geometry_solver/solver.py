@@ -9,6 +9,7 @@ from geometry_solver.problem import Problem
 from geometry_solver.target import Target
 # import geometry_solver.theories.theory_for_triangle
 import geometry_solver.theories.theory_for_collineation
+from geometry_solver.common.finder import Finder
 
 
 class Solver(object):
@@ -20,8 +21,11 @@ class Solver(object):
             self.object = obj
             self.theory = theory
 
-        def deduct(self):
-            self.theory.__call__(self.object)
+        def deduct(self, finder: Finder):
+            if isinstance(self.object, Entity):
+                self.theory.__call__(self.object)
+            else:
+                self.theory.__call__(self.object, finder)
 
         def __str__(self):
             return '(object: ' \
@@ -36,6 +40,7 @@ class Solver(object):
     def __init__(self, problem: Problem, targets: List[Target] = []):
         self._problem = problem
         self._targets = []
+        self._finder = Finder(problem.entity)
 
     def add_target(self, target: Target) -> None:
         self._targets.append(target)
@@ -57,7 +62,7 @@ class Solver(object):
             if not theory_obj_pairs:
                 break
             pair = np.random.choice(theory_obj_pairs)
-            pair.deduct()
+            pair.deduct(self._finder)
             print('epoch {}: chose {} to search.'.format(epoch, pair))
             epoch += 1
             break
