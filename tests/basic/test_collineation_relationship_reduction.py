@@ -1,13 +1,6 @@
-from geometry_solver.entities.angle import Angle
-from geometry_solver.entities.entity import Entity
-from geometry_solver.entities.line import Line
-from geometry_solver.entities.point import Point
-from geometry_solver.entities.triangle import Triangle
-from geometry_solver.relationships.relationship import Relationship
-from geometry_solver.relationships.collineation import Collineation
-from geometry_solver.problem import Problem
-from geometry_solver.solver import Solver
-from geometry_solver.target import Target, TargetType
+from geometry_solver.entities import Angle, Entity, Line, Point, Triangle
+from geometry_solver.relationships import Relationship, Collineation
+from geometry_solver import Problem, Solver, Target, TargetType
 
 
 def create_problem():
@@ -23,8 +16,8 @@ def create_problem():
 
     entity = Entity('Collineation problem')
 
-    entity.add_entities([p_a, p_b, p_c])
-    entity.add_entities([line_ab, line_bc, line_ac])
+    entity.add_entity(p_a, p_b, p_c)
+    entity.add_entity(line_ab, line_bc, line_ac)
 
     problem = Problem(entity=entity, relationships=[r_collineation])
 

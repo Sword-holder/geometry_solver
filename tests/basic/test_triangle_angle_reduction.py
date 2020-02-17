@@ -1,11 +1,5 @@
-from geometry_solver.entities.angle import Angle
-from geometry_solver.entities.entity import Entity
-from geometry_solver.entities.line import Line
-from geometry_solver.entities.point import Point
-from geometry_solver.entities.triangle import Triangle
-from geometry_solver.problem import Problem
-from geometry_solver.solver import Solver
-from geometry_solver.target import Target, TargetType
+from geometry_solver.entities import Angle, Entity, Line, Point, Triangle
+from geometry_solver import Problem, Solver, Target, TargetType
 
 
 def create_problem():

@@ -1,8 +1,4 @@
-from geometry_solver.entities.angle import Angle
-from geometry_solver.entities.entity import Entity
-from geometry_solver.entities.line import Line
-from geometry_solver.entities.point import Point
-from geometry_solver.entities.triangle import Triangle
+from geometry_solver.entities import Angle, Entity, Line, Point, Triangle
 
 
 def test_line():
