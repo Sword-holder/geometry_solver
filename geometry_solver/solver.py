@@ -13,6 +13,7 @@ from geometry_solver.target import Target
 import geometry_solver.theories.theory_for_triangle
 import geometry_solver.theories.theory_for_collineation
 import geometry_solver.theories.theory_for_common_vertex_angle
+import geometry_solver.theories.theory_for_vertical_angle
 from geometry_solver.common.finder import Finder
 from geometry_solver import equation_solver
 from geometry_solver.common.utils import to_symbol

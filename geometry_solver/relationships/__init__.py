@@ -1,3 +1,4 @@
 from geometry_solver.relationships.relationship import Relationship
 from geometry_solver.relationships.collineation import Collineation
 from geometry_solver.relationships.common_vertex_angle import CommonVertexAngle
+from geometry_solver.relationships.vertical_angle import VerticalAngle
