@@ -1,7 +1,9 @@
-from tests.basic.test_triangle_angle_reduction import test_triangle_angle_reduction
-from tests.basic.test_triangle_sides_angle_reduction import test_triangle_sides_angle_reduction
-from tests.basic.test_collineation_relationship_reduction import test_collineation_relationship_reduction
+from tests.basic import test_triangle_angle_reduction
+from tests.basic import test_triangle_sides_angle_reduction
+from tests.basic import test_collineation_relationship_reduction
+from tests.basic import test_common_vertex_angle_relationship
 
 # test_triangle_angle_reduction()
 # test_triangle_sides_angle_reduction()
-test_collineation_relationship_reduction()
+# test_collineation_relationship_reduction()
+test_common_vertex_angle_relationship()

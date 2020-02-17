@@ -7,15 +7,15 @@ class Entity(object):
         self.id = id_
         self.children = set()
     
-    def add_entity(self, entity):
+    def _add_entity(self, entity):
         # Add children recursively.
         for e in entity.children:
-            self.add_entity(e)
+            self._add_entity(e)
         self.children.add(entity)
     
-    def add_entities(self, entities: List):
+    def add_entity(self, *entities):
         for entity in entities:
-            self.add_entity(entity)
+            self._add_entity(entity)
 
     def find_child(self, id_, type_=None):
         for entity in self.children:

@@ -26,9 +26,9 @@ class Problem(object):
         relationship_str = \
             '\n'.join([str(r) for r in self.relationships])
         return '(Problem: ' \
-            + '\nentity: ' \
+            + '\n\tentity: ' \
             + str(self.entity) \
-            + '\nrelationship: ' \
+            + '\n\trelationship: ' \
             + str(relationship_str) \
             + ')'
 

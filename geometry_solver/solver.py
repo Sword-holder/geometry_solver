@@ -1,15 +1,20 @@
 from typing import List, Callable, Union
 
 import numpy as np
+from sympy import Symbol, Number
 
 from geometry_solver.entities.entity import Entity
+from geometry_solver.entities.line import Line
+from geometry_solver.entities.angle import Angle
 from geometry_solver.relationships.relationship import Relationship
 from geometry_solver import theory_manager
 from geometry_solver.problem import Problem
 from geometry_solver.target import Target
-# import geometry_solver.theories.theory_for_triangle
+import geometry_solver.theories.theory_for_triangle
 import geometry_solver.theories.theory_for_collineation
 from geometry_solver.common.finder import Finder
+from geometry_solver import equation_solver
+from geometry_solver.common.utils import to_symbol
 
 
 class Solver(object):
@@ -63,6 +68,7 @@ class Solver(object):
                 break
             pair = np.random.choice(theory_obj_pairs)
             pair.deduct(self._finder)
+            self._solve_equation()
             print('epoch {}: chose {} to search.'.format(epoch, pair))
             epoch += 1
             break
@@ -82,4 +88,21 @@ class Solver(object):
             if not target.solved:
                 return False
         return True
+
+    def _solve_equation(self):
+        result = equation_solver.solve()
+        for e in self._problem.entity.children:
+            attr_map = {Line: 'length', Angle: 'angle'}
+            try:
+                attr = attr_map[type(e)]
+            except KeyError:
+                continue
+            symbol = to_symbol(e, attr)
+            if isinstance(symbol, Symbol):
+                try:
+                    value = result[symbol]
+                    if isinstance(value, Number):
+                        setattr(e, attr, value)
+                except KeyError:
+                    pass
 

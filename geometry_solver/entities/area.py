@@ -19,5 +19,6 @@ class Area(Entity):
         self.sides = sides
         self.angles = angles
         self.area = area
-        self.add_entities(vertexes + sides + angles)
+        children = vertexes + sides + angles
+        self.add_entity(*children)
 

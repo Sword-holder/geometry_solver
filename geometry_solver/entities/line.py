@@ -10,7 +10,7 @@ class Line(Entity):
         super(Line, self).__init__(id_)
         self.ends = ends
         self.length = length
-        self.add_entities(ends)
+        self.add_entity(*ends)
 
     def __str__(self):
         return '(' \

@@ -10,7 +10,7 @@ class Angle(Entity):
         super(Angle, self).__init__(id_)
         self.sides = sides
         self.angle = angle
-        self.add_entities(sides)
+        self.add_entity(*sides)
 
     def __str__(self):
         return '(' \
