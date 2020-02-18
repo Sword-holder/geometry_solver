@@ -14,6 +14,7 @@ import geometry_solver.theories.theory_for_triangle
 import geometry_solver.theories.theory_for_collineation
 import geometry_solver.theories.theory_for_common_vertex_angle
 import geometry_solver.theories.theory_for_vertical_angle
+import geometry_solver.theories.theory_for_supplementary_angle
 from geometry_solver.common.finder import Finder
 from geometry_solver import equation_solver
 from geometry_solver.common.utils import to_symbol
@@ -73,7 +74,6 @@ class Solver(object):
             self._solve_equation()
             print('epoch {}: chose {} to search.'.format(epoch, pair))
             epoch += 1
-            break
 
         if self._solved:
             print('Solve problem successfully! Here are results:')
@@ -91,8 +91,12 @@ class Solver(object):
                 return False
         return True
 
-    def _solve_equation(self):
+    def _solve_equation(self) -> None:
         result = equation_solver.solve()
+        if result:
+            self._update_entity(result)
+
+    def _update_entity(self, result) -> None:
         for e in self._problem.entity.children:
             attr_map = {Line: 'length', Angle: 'angle'}
             try:

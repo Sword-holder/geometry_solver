@@ -3,3 +3,4 @@ from tests.basic.test_triangle_sides_angle_reduction import test_triangle_sides_
 from tests.basic.test_collineation_relationship_reduction import test_collineation_relationship_reduction
 from tests.basic.test_common_vertex_angle_relationship import test_common_vertex_angle_relationship
 from tests.basic.test_vertical_angle import test_vertical_angle
+from tests.basic.test_supplementary_angle import test_supplementary_angle
