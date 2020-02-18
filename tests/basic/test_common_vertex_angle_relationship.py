@@ -1,3 +1,5 @@
+import pytest
+
 from geometry_solver.entities import Entity, Point, Line, Angle, Triangle
 from geometry_solver.relationships import Relationship, CommonVertexAngle
 from geometry_solver import Problem, Solver, Target, TargetType
@@ -47,5 +49,5 @@ def test_common_vertex_angle_relationship():
     target = create_target(problem)
     solver = Solver(problem)
     solver.add_target(target)
-    solver.solve()
-
+    problem = solver.solve()
+    assert problem.entity.find_child('BAD').angle == 70

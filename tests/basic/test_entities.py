@@ -1,3 +1,5 @@
+import pytest
+
 from geometry_solver.entities import Angle, Entity, Line, Point, Triangle
 
 

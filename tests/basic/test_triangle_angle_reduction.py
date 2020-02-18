@@ -1,3 +1,5 @@
+import pytest
+
 from geometry_solver.entities import Angle, Entity, Line, Point, Triangle
 from geometry_solver import Problem, Solver, Target, TargetType
 
@@ -43,5 +45,6 @@ def test_triangle_angle_reduction():
     target = create_target(problem)
     solver = Solver(problem)
     solver.add_target(target)
-    solver.solve()
+    problem = solver.solve()
+    assert problem.entity.find_child('BAC', Angle).angle == 60
 

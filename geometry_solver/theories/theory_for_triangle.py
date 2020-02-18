@@ -2,17 +2,16 @@ import math
 
 from geometry_solver import theory_manager as tm
 from geometry_solver.entities.triangle import Triangle
-from geometry_solver.common.utils import to_degree_measure, to_radian_measure
+from geometry_solver.common.utils import to_degree_measure, to_radian_measure, symbol
 
 
 @tm.theoried(Triangle)
 def triangle_angle_sum(triangle: Triangle) -> None:
-    known_angles = triangle.known_angles
-    unknown_angles = triangle.unknown_angles
-    if len(known_angles) == 2:
-        unknown_angles[0].angle = 180 \
-                                  - known_angles[0].angle \
-                                  - known_angles[1].angle
+    angle0, angle1, angle2 = triangle.angles
+    yield symbol(angle0, 'angle') \
+        + symbol(angle1, 'angle') \
+        + symbol(angle2, 'angle') \
+        - 180
 
 
 @tm.theoried(Triangle)

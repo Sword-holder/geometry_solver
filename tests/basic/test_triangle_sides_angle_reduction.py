@@ -1,3 +1,5 @@
+import pytest
+
 from geometry_solver.entities.angle import Angle
 from geometry_solver.entities.entity import Entity
 from geometry_solver.entities.line import Line
@@ -49,5 +51,5 @@ def test_triangle_sides_angle_reduction():
     solver = Solver(problem)
     solver.add_target(target)
     problem = solver.solve()
-    print(problem.entity.find_child('ABC', Triangle))
+    assert problem.entity.find_child('ABC', Triangle).area - (3**(1/2))/2 < 0.000001
 

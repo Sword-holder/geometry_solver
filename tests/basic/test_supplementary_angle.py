@@ -1,3 +1,5 @@
+import pytest
+
 from geometry_solver.entities import Entity, Point, Line, Angle, Triangle
 from geometry_solver.relationships import Relationship, SupplementaryAngle
 from geometry_solver import Problem, Solver, Target, TargetType
@@ -46,5 +48,6 @@ def test_supplementary_angle():
     target = create_target(problem)
     solver = Solver(problem)
     solver.add_target(target)
-    solver.solve()
+    problem = solver.solve()
+    assert problem.entity.find_child('CBD').angle == 130
 

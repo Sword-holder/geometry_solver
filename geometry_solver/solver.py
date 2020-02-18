@@ -3,21 +3,22 @@ from typing import List, Callable, Union
 import numpy as np
 from sympy import Symbol, Number
 
+# Import Entity and Relationship.
 from geometry_solver.entities.entity import Entity
-from geometry_solver.entities.line import Line
-from geometry_solver.entities.angle import Angle
 from geometry_solver.relationships.relationship import Relationship
+# Import utils to solve problem.
 from geometry_solver import theory_manager
 from geometry_solver.problem import Problem
 from geometry_solver.target import Target
+from geometry_solver.common.finder import Finder
+from geometry_solver import equation_solver
+from geometry_solver.common.utils import symbol
+# Import theories.
 import geometry_solver.theories.theory_for_triangle
 import geometry_solver.theories.theory_for_collineation
 import geometry_solver.theories.theory_for_common_vertex_angle
 import geometry_solver.theories.theory_for_vertical_angle
 import geometry_solver.theories.theory_for_supplementary_angle
-from geometry_solver.common.finder import Finder
-from geometry_solver import equation_solver
-from geometry_solver.common.utils import to_symbol
 
 
 class Solver(object):
@@ -94,19 +95,21 @@ class Solver(object):
     def _solve_equation(self) -> None:
         result = equation_solver.solve()
         if result:
-            self._update_entity(result)
+            self._update_all_entities(result)
 
-    def _update_entity(self, result) -> None:
+    def _update_all_entities(self, result) -> None:
         for e in self._problem.entity.children:
-            attr_map = {Line: 'length', Angle: 'angle'}
-            try:
-                attr = attr_map[type(e)]
-            except KeyError:
+            self._update_entity(result, e)
+
+    def _update_entity(self, result, e: Entity) -> None:
+        for attr, value in e.__dict__.items():
+            # If value is unkonwn, check it.
+            if value is not None:
                 continue
-            symbol = to_symbol(e, attr)
-            if isinstance(symbol, Symbol):
+            symbol_ = symbol(e, attr)
+            if isinstance(symbol_, Symbol):
                 try:
-                    value = result[symbol]
+                    value = result[symbol_]
                     if isinstance(value, Number):
                         setattr(e, attr, value)
                 except KeyError:
