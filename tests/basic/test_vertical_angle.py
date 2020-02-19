@@ -1,7 +1,7 @@
 import pytest
 
 from geometry_solver.entities import Entity, Point, Line, Angle, Triangle
-from geometry_solver.relationships import Relationship, VerticalAngle
+from geometry_solver.relationships import Relationship, OppositeVerticalAngle
 from geometry_solver import Problem, Solver, Target, TargetType
 
 
@@ -20,10 +20,10 @@ def create_problem():
     angle_aob = Angle('AOB', sides=[line_oa, line_ob], angle=40)
     angle_cod = Angle('COD', sides=[line_oc, line_od], angle=None)
 
-    r = VerticalAngle('vertical angle', 
-                      angle1=angle_aob, 
-                      angle2=angle_cod, 
-                      vertex=p_o)
+    r = OppositeVerticalAngle('vertical angle', 
+                              angle1=angle_aob, 
+                              angle2=angle_cod, 
+                              vertex=p_o)
 
     entity = Entity('Vertical angle problem')
 

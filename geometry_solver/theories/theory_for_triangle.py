@@ -1,5 +1,7 @@
 import math
 
+import sympy
+
 from geometry_solver import theory_manager as tm
 from geometry_solver.entities.triangle import Triangle
 from geometry_solver.common.utils import to_degree_measure, to_radian_measure, symbol
@@ -40,6 +42,11 @@ def the_law_of_cosines(triangle: Triangle) -> None:
 
 @tm.theoried(Triangle)
 def the_law_of_sines(triangle: Triangle) -> None:
+    # for angle in triangle.angles:
+    #     side = triangle.opposite_side(angle)
+    #     yield symbol(side, 'length') / sympy.sin(to_radian_measure(symbol(angle, 'angle'))) \
+    #         - 2 * symbol(triangle, 'r_outer')
+
     known_angles = triangle.known_angles
     if len(known_angles) == 0:
         return
@@ -63,8 +70,7 @@ def the_law_of_sines(triangle: Triangle) -> None:
                 if side1.length is None and side2.length is not None:
                     angle1 = to_radian_measure(known_angles[index1].angle)
                     angle2 = to_radian_measure(known_angles[index2].angle)
-                    side1.length = side2.length * \
-                        (math.sin(angle1) / math.sin(angle2))
+                    side1.length = side2.length * math.sin(angle1) / math.sin(angle2)
                     return
 
 

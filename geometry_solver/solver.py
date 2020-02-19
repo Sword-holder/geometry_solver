@@ -17,7 +17,7 @@ from geometry_solver.common.utils import symbol
 import geometry_solver.theories.theory_for_triangle
 import geometry_solver.theories.theory_for_collineation
 import geometry_solver.theories.theory_for_common_vertex_angle
-import geometry_solver.theories.theory_for_vertical_angle
+import geometry_solver.theories.theory_for_opposite_vertical_angle
 import geometry_solver.theories.theory_for_supplementary_angle
 
 

@@ -1,6 +1,7 @@
 import math
 from typing import Union
 
+import sympy
 from sympy import Symbol
 
 from geometry_solver.entities.entity import Entity

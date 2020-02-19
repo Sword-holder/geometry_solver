@@ -5,10 +5,10 @@ from geometry_solver.entities.point import Point
 from geometry_solver.relationships import Relationship
 
 
-class VerticalAngle(Relationship):
+class OppositeVerticalAngle(Relationship):
 
     def __init__(self, id_: str, angle1: Angle, angle2: Angle, vertex: Point):
-        super(VerticalAngle, self).__init__(id_)
+        super(OppositeVerticalAngle, self).__init__(id_)
         self.angle1 = angle1
         self.angle2 = angle2
         self.vertex = vertex

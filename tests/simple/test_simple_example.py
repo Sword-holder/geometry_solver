@@ -1,5 +1,5 @@
 from geometry_solver.entities import Angle, Entity, Line, Point, Triangle
-from geometry_solver.relationships import Collineation, VerticalAngle, SupplementaryAngle
+from geometry_solver.relationships import Collineation, OppositeVerticalAngle, SupplementaryAngle
 from geometry_solver import Problem, Solver, Target, TargetType
 
 
@@ -55,8 +55,8 @@ def create_problem():
     collineation_cfd = Collineation('collineation_cfd', points=[p_c, p_f, p_d])
     collineation_bfe = Collineation('collineation_bfe', points=[p_b, p_f, p_e])
 
-    vertical_angle_bfd_cfe = VerticalAngle('vertical_angle_bfd_cfe', angle1=angle_bfd, angle2=angle_cfe, vertex=p_f)
-    vertical_angle_dfe_bfc = VerticalAngle('vertical_angle_dfe_bfc', angle1=angle_dfe, angle2=angle_bfc, vertex=p_f)
+    vertical_angle_bfd_cfe = OppositeVerticalAngle('vertical_angle_bfd_cfe', angle1=angle_bfd, angle2=angle_cfe, vertex=p_f)
+    vertical_angle_dfe_bfc = OppositeVerticalAngle('vertical_angle_dfe_bfc', angle1=angle_dfe, angle2=angle_bfc, vertex=p_f)
 
     supplementary_angle_adc_bdc = SupplementaryAngle('suoolementary_angle_adc_bdc', angle1=angle_adc, angle2=angle_bdc)
     supplementary_angle_bec_aeb = SupplementaryAngle('supplementary_angle_bec_aeb', angle1=angle_bec, angle2=angle_aeb)
@@ -105,5 +105,7 @@ def test_simple_example():
     solver = Solver(problem)
     solver.add_target(target1)
     solver.add_target(target2)
-    solver.solve()
+    problem = solver.solve()
+    assert problem.entity.find_child('CFE', type_=Angle).angle == 70
+    assert problem.entity.find_child('BDC', type_=Angle).angle == 70
 

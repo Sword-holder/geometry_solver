@@ -13,8 +13,12 @@ class Triangle(Area):
                  vertexes: List[Point], 
                  sides: List[Line], 
                  angles: List[Angle], 
-                 area: float):
+                 area: float,
+                 r_inner: float=None,
+                 r_outer: float=None):
         super(Triangle, self).__init__(id_, vertexes, sides, angles, area)
+        self.r_inner = r_inner
+        self.r_outer = r_outer
     
     @property
     def known_angles(self) -> List[Angle]:
