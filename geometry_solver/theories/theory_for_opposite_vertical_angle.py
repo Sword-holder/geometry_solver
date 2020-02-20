@@ -7,7 +7,7 @@ from geometry_solver.common.utils import symbol
 
 
 @tm.theoried(OppositeVerticalAngle)
-def vertical_angle_equation(opposite_vertical_angle: OppositeVerticalAngle,
+def vertical_angle_equality(opposite_vertical_angle: OppositeVerticalAngle,
                        finder: Finder) -> None:
     angle1 = opposite_vertical_angle.angle1
     angle2 = opposite_vertical_angle.angle2

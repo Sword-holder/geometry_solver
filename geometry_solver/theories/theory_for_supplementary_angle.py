@@ -7,7 +7,7 @@ from geometry_solver.common.utils import symbol
 
 
 @tm.theoried(SupplementaryAngle)
-def vertical_angle_equation(supplementary_angle: SupplementaryAngle,
+def supplementary_angle_sum(supplementary_angle: SupplementaryAngle,
                             finder: Finder) -> None:
     angle1 = supplementary_angle.angle1
     angle2 = supplementary_angle.angle2

@@ -7,10 +7,10 @@ from geometry_solver.common.utils import symbol
 
 
 @tm.theoried(Perpendicular)
-def vertical_angle_equation(perpendicular: Perpendicular,
+def perpendicular_angle(perpendicular: Perpendicular,
                        finder: Finder) -> None:
     line1 = perpendicular.line1
     line2 = perpendicular.line2
     angle = finder.find_angle_by_sides(line1, line2)
-    yield symbol(angle, 'angle') - 90
+    angle.angle = 90
 

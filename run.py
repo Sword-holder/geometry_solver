@@ -8,6 +8,8 @@ from tests.basic import test_supplementary_angle
 from tests.simple import test_simple_example
 from tests.simple import test_simple_example1
 from tests.simple import test_simple_example2
+from tests.simple import test_simple_example3
+from tests.simple import test_simple_example4
 
 # test_triangle_angle_reduction()
 # test_triangle_sides_angle_reduction()
@@ -16,5 +18,7 @@ from tests.simple import test_simple_example2
 # test_vertical_angle()
 # test_supplementary_angle()
 # test_simple_example()
-test_simple_example1()
+# test_simple_example1()
 # test_simple_example2()
+# test_simple_example3()
+test_simple_example4()

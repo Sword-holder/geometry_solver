@@ -29,7 +29,7 @@ class TheoryManager(object):
                     equation_solver.set_equation_group(group_key, equation_set)
             else:
                 f(*args)
-        decorator.__name__ == f.__name__
+        decorator.__name__ = f.__name__
         return decorator       
 
     def _add_theoty(self, obj, theoy_func: Callable) -> None:

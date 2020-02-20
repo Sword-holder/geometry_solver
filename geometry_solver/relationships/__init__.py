@@ -4,3 +4,5 @@ from geometry_solver.relationships.common_vertex_angle import CommonVertexAngle
 from geometry_solver.relationships.opposite_vertical_angle import OppositeVerticalAngle
 from geometry_solver.relationships.supplementary_angle import SupplementaryAngle
 from geometry_solver.relationships.perpendicular import Perpendicular
+from geometry_solver.relationships.n_line_sector import NLineSector
+from geometry_solver.relationships.n_angle_sector import NAngleSector

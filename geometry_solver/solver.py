@@ -19,6 +19,9 @@ import geometry_solver.theories.theory_for_collineation
 import geometry_solver.theories.theory_for_common_vertex_angle
 import geometry_solver.theories.theory_for_opposite_vertical_angle
 import geometry_solver.theories.theory_for_supplementary_angle
+import geometry_solver.theories.theory_for_perpendicular
+import geometry_solver.theories.theory_for_n_line_sector
+import geometry_solver.theories.theory_for_n_angle_sector
 
 
 class Solver(object):
