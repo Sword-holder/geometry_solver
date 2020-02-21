@@ -18,3 +18,6 @@ class EquationSolver(object):
             equation_set += value
         return sympy.solvers.solve(equation_set)
 
+    def clear(self):
+        self.equation_group = {}
+

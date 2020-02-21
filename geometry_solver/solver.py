@@ -1,4 +1,4 @@
-from typing import List, Callable, Union
+from typing import List, Union
 
 import numpy as np
 from sympy import Symbol, Number
@@ -8,11 +8,14 @@ from geometry_solver.entities.entity import Entity
 from geometry_solver.relationships.relationship import Relationship
 # Import utils to solve problem.
 from geometry_solver import theory_manager
+from geometry_solver._equation_solver import EquationSolver
 from geometry_solver.problem import Problem
 from geometry_solver.target import Target
 from geometry_solver.common.finder import Finder
-from geometry_solver import equation_solver
 from geometry_solver.common.utils import symbol
+from geometry_solver._theory_object_pair import TheoryObjectPair
+from geometry_solver import equation_solver
+from geometry_solver import new_objects
 # Import theories.
 import geometry_solver.theories.theory_for_triangle
 import geometry_solver.theories.theory_for_collineation
@@ -26,29 +29,6 @@ import geometry_solver.theories.theory_for_n_angle_sector
 
 class Solver(object):
 
-
-    class TheoryObjectPair(object):
-        
-        def __init__(self, theory: Callable, obj: Union[Entity, Relationship]):
-            self.object = obj
-            self.theory = theory
-
-        def deduct(self, finder: Finder):
-            if isinstance(self.object, Entity):
-                self.theory.__call__(self.object)
-            else:
-                self.theory.__call__(self.object, finder)
-
-        def __str__(self):
-            return '(object: ' \
-                + str(type(self.object).__name__) \
-                + ' ' \
-                + str(self.object.id) \
-                + ', theory: ' \
-                + str(self.theory.__name__) \
-                + ')'
-
-
     def __init__(self, problem: Problem, targets: List[Target] = []):
         self._problem = problem
         self._targets = []
@@ -58,15 +38,12 @@ class Solver(object):
         self._targets.append(target)
 
     def solve(self) -> Problem:
+        self._init_global_vars()
         print('solving problem....')
         theory_obj_pairs = []
         objects = list(self._problem.entity.children) \
                   + self._problem.relationships
-        for obj in objects:
-            theories = theory_manager.theories_suit_to_object(obj)
-            for t in theories:
-                pair = Solver.TheoryObjectPair(t, obj)
-                theory_obj_pairs.append(pair)
+        self._add_new_objs(objects, theory_obj_pairs)
         print('Make {} entity-theory pairs.'.format(len(theory_obj_pairs)))
 
         epoch = 0
@@ -76,6 +53,7 @@ class Solver(object):
             pair = np.random.choice(theory_obj_pairs)
             pair.deduct(self._finder)
             self._solve_equation()
+            self._add_new_objs(new_objects, theory_obj_pairs)
             print('epoch {}: chose {} to search.'.format(epoch, pair))
             epoch += 1
 
@@ -117,4 +95,17 @@ class Solver(object):
                         setattr(e, attr, value)
                 except KeyError:
                     pass
+
+    def _add_new_objs(self,
+                      objects: List[Union[Entity, Relationship]], 
+                      theory_obj_pairs: List[TheoryObjectPair]) -> None:
+        for obj in objects:
+            theories = theory_manager.theories_suit_to_object(obj)
+            for t in theories:
+                pair = TheoryObjectPair(t, obj)
+                theory_obj_pairs.append(pair)
+
+    def _init_global_vars(self):
+        equation_solver.clear()
+        new_objects.clear()
 
