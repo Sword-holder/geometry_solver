@@ -1,4 +1,5 @@
 from typing import List, Union
+import time
 
 import numpy as np
 from sympy import Symbol, Number
@@ -16,6 +17,7 @@ from geometry_solver.common.utils import symbol
 from geometry_solver._theory_object_pair import TheoryObjectPair
 from geometry_solver import equation_solver
 from geometry_solver import new_objects
+from geometry_solver import solving_path
 # Import theories.
 import geometry_solver.theories.theory_for_triangle
 import geometry_solver.theories.theory_for_collineation
@@ -38,6 +40,7 @@ class Solver(object):
         self._targets.append(target)
 
     def solve(self) -> Problem:
+        start_time = time.time()
         self._init_global_vars()
         print('solving problem....')
         theory_obj_pairs = []
@@ -64,6 +67,9 @@ class Solver(object):
         else:
             print('The problem has no solution')
         
+        print(solving_path)
+        end_time = time.time()
+        print('Use time: {} s'.format(end_time - start_time))
         return self._problem
 
     @property
