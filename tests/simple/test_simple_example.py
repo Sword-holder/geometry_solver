@@ -30,7 +30,7 @@ def create_problem():
     angle_abe = Angle('ABE', sides=[line_ab, line_be], angle=40)
     angle_cbe = Angle('CBE', sides=[line_bc, line_be], angle=None)
     angle_acb = Angle('ACB', sides=[line_ac, line_ab], angle=None)
-    angle_acd = Angle('ACD', sides=[line_ac, line_cd], angle=25)
+    angle_acd = Angle('ACD', sides=[line_ac, line_cd], angle=20)
     angle_bcd = Angle('BCD', sides=[line_bc, line_cd], angle=None)
     angle_bdc = Angle('BDC', sides=[line_bd, line_cd], angle=None)
     angle_adc = Angle('ADC', sides=[line_ad, line_cd], angle=None)
@@ -106,6 +106,6 @@ def test_simple_example():
     solver.add_target(target1)
     solver.add_target(target2)
     problem = solver.solve()
-    assert problem.entity.find_child('CFE', type_=Angle).angle == 70
-    assert problem.entity.find_child('BDC', type_=Angle).angle == 70
+    assert problem.entity.find_child('CFE', type_=Angle).angle == 75
+    assert problem.entity.find_child('BDC', type_=Angle).angle == 65
 

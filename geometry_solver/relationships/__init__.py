@@ -6,3 +6,4 @@ from geometry_solver.relationships.supplementary_angle import SupplementaryAngle
 from geometry_solver.relationships.perpendicular import Perpendicular
 from geometry_solver.relationships.n_line_sector import NLineSector
 from geometry_solver.relationships.n_angle_sector import NAngleSector
+from geometry_solver.relationships.parallel import Parallel

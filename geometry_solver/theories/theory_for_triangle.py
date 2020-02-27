@@ -34,7 +34,7 @@ def the_law_of_cosines(triangle: Triangle) -> None:
             angle.angle = to_degree_measure(angle.angle)
             solving_path.append_deduction(
                 theory=zh_theory['the_law_of_cosines'], 
-                eq='Angle_{0} = arccos( (Line_{1}^2 + Line_{2}^2 - Line_{3}^2) / (2 * Line_{1} * Line_{2}))'.format(angle.id, adj_side1.id, adj_side2.id, opposite_side.id),
+                eq='Angle_{0} = arccos((Line_{1}^2+Line_{2}^2-Line_{3}^2) / (2*Line_{1}*Line_{2}))'.format(angle.id, adj_side1.id, adj_side2.id, opposite_side.id),
                 result=angle.angle)
     elif len(known_sides) == 2:
         unknown_side = triangle.unknown_sides[0]

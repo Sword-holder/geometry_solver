@@ -4,3 +4,4 @@ from tests.basic.test_collineation_relationship_reduction import test_collineati
 from tests.basic.test_common_vertex_angle_relationship import test_common_vertex_angle_relationship
 from tests.basic.test_vertical_angle import test_vertical_angle
 from tests.basic.test_supplementary_angle import test_supplementary_angle
+from tests.basic.test_parallel import test_parallel
