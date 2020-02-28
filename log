@@ -1,0 +1,40 @@
+[
+    {
+        Angle_ANM: 90, 
+        Line_AN: 5.0 - Line_CN, 
+        Line_CM: 3, 
+        Line_BM: 3, 
+        Angle_ABC: 57.29*asin(2.5/Triangle_ABC), 
+        Angle_ACB: 57.29*asin(2.5/Triangle_ABC), 
+        Angle_BAC: 180 - 57.29*asin(3.0/Triangle_ABC)
+    }, 
+    {
+        Angle_ANM: 90, 
+        Line_AN: 5.0 - Line_CN, 
+        Line_CM: 3, 
+        Line_BM: 3, 
+        Angle_ABC: 57.29*asin(2.5/Triangle_ABC), 
+        Angle_ACB: 57.29*asin(2.5/Triangle_ABC), 
+        Angle_BAC: 57.29*asin(3.0/Triangle_ABC)
+    }
+]
+
+
+[
+    {
+        Triangle_ABC: 3.12500000000000, 
+        Angle_ANM: 90.0000000000000, 
+        Line_AN: 5.0 - Line_CN, 
+        Line_BM: 3.00000000000000, 
+        Angle_CMN: 36.8698976458440, 
+        Angle_BAC: 73.7397952916880
+    }, 
+    {
+        Triangle_ABC: 3.12500000000000, 
+        Angle_ANM: 90.0000000000000, 
+        Line_AN: 5.0 - Line_CN, 
+        Line_BM: 3.00000000000000, 
+        Angle_CMN: 36.8698976458440, 
+        Angle_BAC: 106.260204708312
+    }
+]

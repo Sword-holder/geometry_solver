@@ -18,10 +18,10 @@ from tests.simple import test_simple_example4
 # test_common_vertex_angle_relationship()
 # test_vertical_angle()
 # test_supplementary_angle()
-test_parallel()
+# test_parallel()
 
 # test_simple_example()
 # test_simple_example1()
 # test_simple_example2()
-# test_simple_example3()
+test_simple_example3()
 # test_simple_example4()

@@ -19,6 +19,6 @@ def to_radian_measure(degree):
 
 def symbol(entity: Entity, attr: str) -> Union[Symbol, float]:
     if getattr(entity, attr) is None:
-        return Symbol('_'.join([type(entity).__name__, entity.id]))
+        return Symbol('_'.join([type(entity).__name__, entity.id, attr]))
     return getattr(entity, attr)
 
