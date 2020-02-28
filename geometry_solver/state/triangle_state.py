@@ -39,3 +39,9 @@ class TriangleState():
         """Alter the triangle state to equilateral triagnle."""
         self.isosceles_state = TriangleState.Isosceles.equilateral
 
+    def __str__(self):
+        return '[Triangle State:' \
+            + str(self.rt_state) \
+            + str(self.isosceles_state) \
+            + ']' 
+

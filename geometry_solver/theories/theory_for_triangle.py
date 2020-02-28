@@ -113,5 +113,7 @@ def helen_formula(triangle: Triangle) -> None:
 def right_triangle_determination(triangle: Triangle):
     for angle in triangle.known_angles:
         if round(angle.angle, 6) == 90:
-            triangle.to_rt(vertex=angle)
+            triangle.to_rt(vertex=angle.vertex)
+            print(triangle.state)
+            break
 

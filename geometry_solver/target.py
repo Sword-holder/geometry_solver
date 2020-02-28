@@ -14,6 +14,7 @@ class Target(object):
             self.entity = setting['entity']
             self.attr = setting['attr']
         elif type_ == TargetType.PROOF:
+            self.entity = setting['entity']
             self.attr = setting['attr']
             self.value = setting['value']
 
@@ -31,7 +32,7 @@ class Target(object):
 
     @property
     def _proof_solved(self):
-        return self.attr == self.value
+        return self.entity.__getattribute__(self.attr) == self.value
 
     def __str__(self):
         if self.type == TargetType.EVALUATION and self.solved:
@@ -41,9 +42,13 @@ class Target(object):
                 + str(self.attr) \
                 + ' = ' \
                 + str(getattr(self.entity, self.attr))
-        else:
-            value = ''
-
+        elif self.type == TargetType.PROOF:
+            value = ', ' \
+                + str(self.entity) \
+                + '.' \
+                + str(self.attr) \
+                + ' are supposed to be ' \
+                + str(self.value)
         return '(' \
             + 'Target: ' \
             + 'type = ' \

@@ -1,1 +1,1 @@
-from tests.proof.proof_rt import proof_rt
+from tests.proof.test_proof_rt import test_proof_rt

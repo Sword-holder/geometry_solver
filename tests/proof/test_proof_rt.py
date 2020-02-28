@@ -15,9 +15,9 @@ def create_problem():
     line_bc = Line('BC', ends=[p_b, p_c], length=3)
     line_ac = Line('AC', ends=[p_a, p_c], length=5)
 
-    angle_abc = Angle('ABC', sides=[line_ab, line_bc], angle=None)
-    angle_bac = Angle('BAC', sides=[line_ab, line_ac], angle=None)
-    angle_acb = Angle('ACB', sides=[line_ac, line_bc], angle=None)
+    angle_abc = Angle('ABC', sides=[line_ab, line_bc], vertex=p_b, angle=None)
+    angle_bac = Angle('BAC', sides=[line_ab, line_ac], vertex=p_a, angle=None)
+    angle_acb = Angle('ACB', sides=[line_ac, line_bc], vertex=p_c, angle=None)
 
     triangle_abc = Triangle('ABC', vertexes=[p_a, p_b, p_c], sides=[line_ab, line_bc, line_ac], angles=[angle_acb, angle_bac, angle_abc], area=None)
 
@@ -37,16 +37,18 @@ def create_problem():
 
 def create_target(problem):
     target = Target(TargetType.PROOF,
-                    attr=problem.entity.find_child('ABC').state.rt_state,
-                    value=TriangleState.RT.rt)
+        entity=problem.entity.find_child('ABC', type_=Triangle).state,
+        attr='rt_state',
+        value=TriangleState.RT.rt)
     return target
 
 
-def proof_rt():
+def test_proof_rt():
     problem = create_problem()
     target = create_target(problem)
     solver = Solver(problem)
     solver.add_target(target)
     problem = solver.solve()
-    assert problem.entity.find_child('AC').length == 3
+    state = problem.entity.find_child('ABC', type_=Triangle).state
+    assert state.rt_state == TriangleState.RT.rt
 
