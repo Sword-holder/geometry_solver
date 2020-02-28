@@ -18,8 +18,8 @@ def create_problem():
     line_cd = Line('CD', ends=[p_c, p_d], length=None)
     line_ec = Line('EC', ends=[p_e, p_c], length=None)
 
-    angle_aec = Angle('AEC', sides=[line_ae, line_ec], angle=None)
-    angle_dce = Angle('DCE', sides=[line_ec, line_cd], angle=30)
+    angle_aec = Angle('AEC', sides=[line_ae, line_ec], vertex=p_e, angle=None)
+    angle_dce = Angle('DCE', sides=[line_ec, line_cd], vertex=p_c, angle=30)
 
     r1 = Collineation('Collineation AEB', points=[p_a, p_e, p_b])
     r2 = Parallel('Parallel AB and CD', line1=line_ab, line2=line_cd, colllineation1=r1)

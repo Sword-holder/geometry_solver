@@ -15,8 +15,8 @@ def create_problem():
     line_bc = Line('BC', ends=[p_b, p_c], length=None)
     line_bd = Line('BD', ends=[p_b, p_d], length=None)
 
-    angle_bac = Angle('ABD', sides=[line_ba, line_bd], angle=50)
-    angle_cad = Angle('CBD', sides=[line_bc, line_bd], angle=None)
+    angle_bac = Angle('ABD', sides=[line_ba, line_bd], vertex=p_b, angle=50)
+    angle_cad = Angle('CBD', sides=[line_bc, line_bd], vertex=p_b, angle=None)
 
     r = SupplementaryAngle('CommonVertexAngle ABD and CBD', 
                            angle1=angle_bac,

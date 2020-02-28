@@ -17,8 +17,8 @@ def create_problem():
     line_oc = Line('OC', ends=[p_o, p_c], length=None)
     line_od = Line('OD', ends=[p_o, p_d], length=None)
 
-    angle_aob = Angle('AOB', sides=[line_oa, line_ob], angle=40)
-    angle_cod = Angle('COD', sides=[line_oc, line_od], angle=None)
+    angle_aob = Angle('AOB', sides=[line_oa, line_ob], vertex=p_o, angle=40)
+    angle_cod = Angle('COD', sides=[line_oc, line_od], vertex=p_o, angle=None)
 
     r = OppositeVerticalAngle('vertical angle', 
                               angle1=angle_aob, 

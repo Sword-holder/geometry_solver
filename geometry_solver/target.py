@@ -13,13 +13,16 @@ class Target(object):
         if type_ == TargetType.EVALUATION:
             self.entity = setting['entity']
             self.attr = setting['attr']
+        elif type_ == TargetType.PROOF:
+            self.attr = setting['attr']
+            self.value = setting['value']
 
     @property
     def solved(self) -> bool:
         if self.type == TargetType.EVALUATION:
             return self._evaluation_solved
         elif self.type == TargetType.PROOF:
-            return self._PROOF_solved
+            return self._proof_solved
         return True
 
     @property
@@ -27,8 +30,8 @@ class Target(object):
         return getattr(self.entity, self.attr) is not None
 
     @property
-    def _PROOF_solved(self):
-        pass
+    def _proof_solved(self):
+        return self.attr == self.value
 
     def __str__(self):
         if self.type == TargetType.EVALUATION and self.solved:

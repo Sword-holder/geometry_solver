@@ -5,6 +5,7 @@ from geometry_solver.entities.area import Area
 from geometry_solver.entities.point import Point
 from geometry_solver.entities.line import Line
 from geometry_solver.entities.angle import Angle
+from geometry_solver.state.triangle_state import TriangleState
 
 
 class Triangle(Area):
@@ -19,6 +20,7 @@ class Triangle(Area):
         super(Triangle, self).__init__(id_, vertexes, sides, angles, area)
         self.r_inner = r_inner
         self.r_outer = r_outer
+        self.state = TriangleState()
     
     @property
     def known_angles(self) -> List[Angle]:
@@ -57,6 +59,19 @@ class Triangle(Area):
     def adjacent_angles(self, side: Line) -> List[Angle]:
         opposite_angle = self.opposite_angle(side)
         return [angle for angle in self.angles if angle is not opposite_angle]
+    
+    def to_rt(self, vertex=None):
+        if vertex is None:
+            print('Warning: the triangle is not right triangle.')
+        self.state.to_rt()
+
+    def to_isosceles(self, vertex=None):
+        if vertex is None:
+            print('Warning: the triangle is not isosceles.')
+        self.to_isosceles(vertex)
+
+    def to_equilateral(self):
+        self.to_equilateral()
 
     def __str__(self) -> str:
         return '(' \

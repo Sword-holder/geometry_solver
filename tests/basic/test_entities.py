@@ -16,7 +16,7 @@ def test_angle():
     p3 = Point('C')
     line1 = Line('AB', ends=[p1, p2], length=34.5)
     line2 = Line('BC', ends=[p2, p3], length=13.2)
-    angle = Angle('ABC', sides=[line1, line2], angle=60)
+    angle = Angle('ABC', sides=[line1, line2], vertex=p2, angle=60)
     print(angle)
 
 
@@ -40,9 +40,9 @@ def test_triangle():
     line_bc = Line('BC', ends=[pb, pc], length=None)
     line_ac = Line('AC', ends=[pa, pc], length=None)
     
-    angle_abc = Angle('ABC', sides=[line_ab, line_bc], angle=90)
-    angle_acb = Angle('ACB', sides=[line_ac, line_bc], angle=40)
-    angle_bac = Angle('BAC', sides=[line_ab, line_ac], angle=None)
+    angle_abc = Angle('ABC', sides=[line_ab, line_bc], vertex=pb, angle=90)
+    angle_acb = Angle('ACB', sides=[line_ac, line_bc], vertex=pc, angle=40)
+    angle_bac = Angle('BAC', sides=[line_ab, line_ac], vertex=pa, angle=None)
 
     triangle = Triangle('ABC', 
                         vertexes=[pa, pb, pc],

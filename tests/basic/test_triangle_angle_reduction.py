@@ -13,9 +13,9 @@ def create_problem():
     line_bc = Line('BC', ends=[pb, pc], length=None)
     line_ac = Line('AC', ends=[pa, pc], length=None)
     
-    angle_abc = Angle('ABC', sides=[line_ab, line_bc], angle=90)
-    angle_acb = Angle('ACB', sides=[line_ac, line_bc], angle=30)
-    angle_bac = Angle('BAC', sides=[line_ab, line_ac], angle=None)
+    angle_abc = Angle('ABC', sides=[line_ab, line_bc], vertex=pb, angle=90)
+    angle_acb = Angle('ACB', sides=[line_ac, line_bc], vertex=pc, angle=30)
+    angle_bac = Angle('BAC', sides=[line_ab, line_ac], vertex=pa, angle=None)
 
     triangle = Triangle('ABC', 
                         vertexes=[pa, pb, pc],

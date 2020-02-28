@@ -19,10 +19,10 @@ def create_problem():
     line_ce = Line('CE', ends=[p_c, p_e], length=None)
     line_de = Line('DE', ends=[p_d, p_e], length=None)
 
-    angle_abd = Angle('ABD', sides=[line_ab, line_bd], angle=120)
-    angle_dbe = Angle('DBE', sides=[line_bd, line_be], angle=None)
-    angle_bde = Angle('BDE', sides=[line_bd, line_de], angle=30)
-    angle_aed = Angle('AED', sides=[line_ae, line_de], angle=None)
+    angle_abd = Angle('ABD', sides=[line_ab, line_bd], vertex=p_b, angle=120)
+    angle_dbe = Angle('DBE', sides=[line_bd, line_be], vertex=p_b, angle=None)
+    angle_bde = Angle('BDE', sides=[line_bd, line_de], vertex=p_d, angle=30)
+    angle_aed = Angle('AED', sides=[line_ae, line_de], vertex=p_e, angle=None)
 
     triangle_bde = Triangle('BDE', vertexes=[p_b, p_d, p_e], sides=[line_bd, line_be, line_de], angles=[angle_aed, angle_bde, angle_dbe], area=None)
 

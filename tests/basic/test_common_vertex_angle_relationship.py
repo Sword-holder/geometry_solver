@@ -15,9 +15,9 @@ def create_problem():
     line_ac = Line('AC', ends=[p_a, p_c], length=None)
     line_ad = Line('AD', ends=[p_a, p_d], length=None)
 
-    angle_bac = Angle('BAC', sides=[line_ab, line_ac], angle=40)
-    angle_cad = Angle('CAD', sides=[line_ac, line_ad], angle=30)
-    angle_bad = Angle('BAD', sides=[line_ab, line_ad], angle=None)
+    angle_bac = Angle('BAC', sides=[line_ab, line_ac], vertex=p_a, angle=40)
+    angle_cad = Angle('CAD', sides=[line_ac, line_ad], vertex=p_a, angle=30)
+    angle_bad = Angle('BAD', sides=[line_ab, line_ad], vertex=p_a, angle=None)
 
     r = CommonVertexAngle('common vertex A', 
                           vertex=p_a,
