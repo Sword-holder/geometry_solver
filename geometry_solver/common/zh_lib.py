@@ -11,5 +11,7 @@ zh_theory = {
     'triangle_angle_sum': '三角形内角之和为180度',
     'the_law_of_cosines': '余弦定理',
     'the_law_of_sines': '正弦定理',
-    'helen_formula': '海伦公式'
+    'helen_formula': '海伦公式',
+    'similar_triangle_ratio': '相似三角形对应边比例关系',
+    'similar_triangle_angle_equality': '相似三角形对应角相等'
 }

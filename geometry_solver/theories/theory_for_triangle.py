@@ -4,7 +4,9 @@ import sympy
 
 from geometry_solver import theory_manager as tm
 from geometry_solver.entities.triangle import Triangle
+from geometry_solver.relationships.similar_triangle import SimilarTriangle
 from geometry_solver.common.utils import to_degree_measure, to_radian_measure, symbol
+from geometry_solver.common.finder import Finder
 from geometry_solver import solving_path
 from geometry_solver.common.zh_lib import zh_theory
 
@@ -52,11 +54,29 @@ def the_law_of_cosines(triangle: Triangle) -> None:
 
 @tm.theoried(Triangle)
 def the_law_of_sines(triangle: Triangle) -> None:
-    for angle in triangle.angles:
-        side = triangle.opposite_side(angle)
-        if angle.angle is not None:
-            yield symbol(side, 'length') / sympy.sin(to_radian_measure(symbol(angle, 'angle'))) \
-                - 2 * symbol(triangle, 'r_outer')
+    known_angles = triangle.known_angles
+    if len(known_angles) == 1 and known_angles[0].angle >= 90:
+        angle = known_angles[0]
+        opposite_side = triangle.opposite_side(angle)
+        if opposite_side.length is not None:
+            for side in triangle.adjacent_sides(angle):
+                if side.length is not None:
+                    unknown_angle = triangle.opposite_angle(side)
+                    sin_angle = math.sin(to_radian_measure(angle.angle)) * \
+                        (side.length / opposite_side.length)
+                    unknown_angle.angle = to_degree_measure(
+                        math.asin(sin_angle))
+                    solving_path.append_deduction(
+                        theory=zh_theory['the_law_of_sines'],
+                        eq='Angle_{0} = arcsin(sin(Angle_{1}) * (Line_{2} / Line_{3}))'.format(unknown_angle.id, angle.id, side.id, opposite_side.id),
+                        result=unknown_angle.angle)
+                    return
+    else:
+        for angle in triangle.angles:
+            side = triangle.opposite_side(angle)
+            if angle.angle is not None:
+                yield symbol(side, 'length') / sympy.sin(to_radian_measure(symbol(angle, 'angle'))) \
+                    - 2 * symbol(triangle, 'r_outer')
 
     # known_angles = triangle.known_angles
     # if len(known_angles) == 0:
@@ -110,10 +130,28 @@ def helen_formula(triangle: Triangle) -> None:
 
 
 @tm.theoried(Triangle)
-def right_triangle_determination(triangle: Triangle):
+def right_triangle_determination(triangle: Triangle) -> None:
     for angle in triangle.known_angles:
         if round(angle.angle, 6) == 90:
             triangle.to_rt(vertex=angle.vertex)
-            print(triangle.state)
             break
+
+
+@tm.theoried(SimilarTriangle)
+def similar_triangle_ratio(similar_triangle: SimilarTriangle,
+                           finder: Finder) -> None:
+    ratio = symbol(similar_triangle, 'ratio')
+    triangle1 = similar_triangle.triangle1
+    triangle2 = similar_triangle.triangle2
+    for angle1, angle2 in similar_triangle.corresponding:
+        line1 = triangle1.opposite_side(angle1)
+        line2 = triangle2.opposite_side(angle2)
+        yield symbol(line1, 'length') - ratio*symbol(line2, 'length')
+
+
+@tm.theoried(SimilarTriangle)
+def similar_triangle_angle_equality(similar_triangle: SimilarTriangle,
+                                    finder: Finder) -> None:
+    for angle1, angle2 in similar_triangle.corresponding:
+        yield symbol(angle1, 'angle') - symbol(angle2, 'angle')
 

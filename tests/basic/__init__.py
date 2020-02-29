@@ -5,3 +5,4 @@ from tests.basic.test_common_vertex_angle_relationship import test_common_vertex
 from tests.basic.test_vertical_angle import test_vertical_angle
 from tests.basic.test_supplementary_angle import test_supplementary_angle
 from tests.basic.test_parallel import test_parallel
+from tests.basic.test_similar_triangle import test_similar_triangle
