@@ -64,5 +64,6 @@ def similar_triangle_determination(triangle: Triangle,
                 triangle2=t,
                 corresponding=corresponding,
                 ratio=ratio)
+            print(r)
             add_new_object(r)
 

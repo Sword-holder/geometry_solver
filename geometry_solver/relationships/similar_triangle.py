@@ -19,14 +19,33 @@ class SimilarTriangle(Relationship):
         self.ratio = ratio
         self.corresponding = corresponding
     
+    def __eq__(self, other):
+        return \
+            ( \
+                self.triangle1 == other.triangle1 \
+                and \
+                self.triangle2 == other.triangle2 \
+            ) \
+            or \
+            ( \
+                self.triangle1 == other.triangle2 \
+                and \
+                self.triangle2 == other.triangle1 \
+            )
+    
+    def __hash__(self):
+        tid1, tid2 = self.triangle1.id, self.triangle2.id
+        tid1, tid2 = sorted([tid1, tid2])
+        return hash('_'.join(['SimilarTriangle', tid1, tid2]))
+    
     def __str__(self):
         return '(' \
             + 'SimilarTriangle relationship ' \
             + self.id \
             + ': ' \
-            + 'line1: ' \
+            + 'triangle1: ' \
             + str(self.triangle1.id) \
-            + ', line2: ' \
+            + ', triangle2: ' \
             + str(self.triangle2.id) \
             + ', ratio: ' \
             + str(self.ratio) \

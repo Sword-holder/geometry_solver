@@ -22,12 +22,13 @@ from tests.proof import test_proof_rt
 # test_vertical_angle()
 # test_supplementary_angle()
 # test_parallel()
-# test_similar_triangle()
+test_similar_triangle()
 
 # test_simple_example()
 # test_simple_example1()
 # test_simple_example2()
 # test_simple_example3()
 # test_simple_example4()
+# test_simple_example5()
 
 # test_proof_rt()
