@@ -12,7 +12,8 @@ from geometry_solver.common.zh_lib import zh_theory
 
 
 @tm.theoried(Triangle)
-def triangle_angle_sum(triangle: Triangle) -> None:
+def triangle_angle_sum(triangle: Triangle,
+                       finder: Finder) -> None:
     angle0, angle1, angle2 = triangle.angles
     yield symbol(angle0, 'angle') \
         + symbol(angle1, 'angle') \
@@ -21,7 +22,8 @@ def triangle_angle_sum(triangle: Triangle) -> None:
 
 
 @tm.theoried(Triangle)
-def the_law_of_cosines(triangle: Triangle) -> None:
+def the_law_of_cosines(triangle: Triangle,
+                       finder: Finder) -> None:
     known_sides = triangle.known_sides
     unknown_angles = triangle.unknown_angles
     if len(known_sides) == 3:
@@ -53,9 +55,12 @@ def the_law_of_cosines(triangle: Triangle) -> None:
 
 
 @tm.theoried(Triangle)
-def the_law_of_sines(triangle: Triangle) -> None:
+def the_law_of_sines(triangle: Triangle,
+                     finder: Finder) -> None:
     known_angles = triangle.known_angles
     if len(known_angles) == 1 and known_angles[0].angle >= 90:
+        # if only one angle is known and it larger than 90 degree,
+        # asin only has one solution.
         angle = known_angles[0]
         opposite_side = triangle.opposite_side(angle)
         if opposite_side.length is not None:
@@ -114,7 +119,8 @@ def the_law_of_sines(triangle: Triangle) -> None:
 
 
 @tm.theoried(Triangle)
-def helen_formula(triangle: Triangle) -> None:
+def helen_formula(triangle: Triangle,
+                  finder: Finder) -> None:
     known_sides = triangle.known_sides
     if len(known_sides) == 3:
         a = known_sides[0].length
@@ -130,28 +136,10 @@ def helen_formula(triangle: Triangle) -> None:
 
 
 @tm.theoried(Triangle)
-def right_triangle_determination(triangle: Triangle) -> None:
+def right_triangle_determination(triangle: Triangle,
+                                 finder: Finder) -> None:
     for angle in triangle.known_angles:
         if round(angle.angle, 6) == 90:
             triangle.to_rt(vertex=angle.vertex)
             break
-
-
-@tm.theoried(SimilarTriangle)
-def similar_triangle_ratio(similar_triangle: SimilarTriangle,
-                           finder: Finder) -> None:
-    ratio = symbol(similar_triangle, 'ratio')
-    triangle1 = similar_triangle.triangle1
-    triangle2 = similar_triangle.triangle2
-    for angle1, angle2 in similar_triangle.corresponding:
-        line1 = triangle1.opposite_side(angle1)
-        line2 = triangle2.opposite_side(angle2)
-        yield symbol(line1, 'length') - ratio*symbol(line2, 'length')
-
-
-@tm.theoried(SimilarTriangle)
-def similar_triangle_angle_equality(similar_triangle: SimilarTriangle,
-                                    finder: Finder) -> None:
-    for angle1, angle2 in similar_triangle.corresponding:
-        yield symbol(angle1, 'angle') - symbol(angle2, 'angle')
 

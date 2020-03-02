@@ -6,7 +6,7 @@ from geometry_solver.common.utils import symbol
 
 @tm.theoried(NLineSector)
 def n_line_sector_ratio(n_line_sector: NLineSector,
-                            finder: Finder) -> None:
+                        finder: Finder) -> None:
     line = n_line_sector.line
     ratio = n_line_sector.ratio
     A = n_line_sector.nearer_point

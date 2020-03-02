@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Union, Set
 import time
 
 import numpy as np
@@ -28,6 +28,7 @@ import geometry_solver.theories.theory_for_perpendicular
 import geometry_solver.theories.theory_for_n_line_sector
 import geometry_solver.theories.theory_for_n_angle_sector
 import geometry_solver.theories.theory_for_parallel
+import geometry_solver.theories.theory_for_similar_triangle
 
 
 class Solver(object):
@@ -44,7 +45,7 @@ class Solver(object):
         start_time = time.time()
         self._init_global_vars()
         print('solving problem....')
-        theory_obj_pairs = []
+        theory_obj_pairs = set()
         objects = list(self._problem.entity.children) \
                   + self._problem.relationships
         self._add_new_objs(objects, theory_obj_pairs)
@@ -54,11 +55,12 @@ class Solver(object):
         while not self._solved:
             if not theory_obj_pairs:
                 break
-            pair = np.random.choice(theory_obj_pairs)
+            pair = np.random.choice(list(theory_obj_pairs))
             pair.deduct(self._finder)
             self._solve_equation()
             self._add_new_objs(new_objects, theory_obj_pairs)
             print('epoch {}: chose {} to search.'.format(epoch, pair))
+            print('====================', len(theory_obj_pairs), '===========================')
             epoch += 1
 
         if self._solved:
@@ -105,12 +107,12 @@ class Solver(object):
 
     def _add_new_objs(self,
                       objects: List[Union[Entity, Relationship]], 
-                      theory_obj_pairs: List[TheoryObjectPair]) -> None:
+                      theory_obj_pairs: Set[TheoryObjectPair]) -> None:
         for obj in objects:
             theories = theory_manager.theories_suit_to_object(obj)
             for t in theories:
                 pair = TheoryObjectPair(t, obj)
-                theory_obj_pairs.append(pair)
+                theory_obj_pairs.add(pair)
 
     def _init_global_vars(self):
         equation_solver.clear()

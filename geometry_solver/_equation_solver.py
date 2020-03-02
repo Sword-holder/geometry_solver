@@ -45,9 +45,9 @@ class EquationSolver(object):
     def __str__(self):
         eq_str = ''
         for key, equations in self._equation_group.items():
-            eq_str += key + ':\n'
+            eq_str += key + ':'
             for eq in equations:
-                eq_str += '\t' + str(eq)
+                eq_str += '\n\t' + str(eq)
             eq_str += '\n'
         return '[Equation pool:\n' + eq_str + ']'
 

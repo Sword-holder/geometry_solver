@@ -28,6 +28,6 @@ from tests.proof import test_proof_rt
 # test_simple_example1()
 # test_simple_example2()
 # test_simple_example3()
-test_simple_example4()
+# test_simple_example4()
 
 # test_proof_rt()

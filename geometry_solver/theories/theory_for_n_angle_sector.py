@@ -6,7 +6,7 @@ from geometry_solver.common.utils import symbol
 
 @tm.theoried(NAngleSector)
 def n_angle_sector_ratio(n_angle_sector: NAngleSector,
-                            finder: Finder) -> None:
+                         finder: Finder) -> None:
     angle = n_angle_sector.angle
     line = n_angle_sector.line
     ratio = n_angle_sector.ratio

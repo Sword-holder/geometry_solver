@@ -11,11 +11,14 @@ class TheoryObjectPair(object):
         self.object = obj
         self.theory = theory
 
+    def __hash__(self):
+        return hash(self.object.id + self.theory.__name__)
+
+    def __eq__(self, other):
+        return self.object == other.object and self.theory == other.theory
+
     def deduct(self, finder: Finder):
-        if isinstance(self.object, Entity):
-            self.theory.__call__(self.object)
-        else:
-            self.theory.__call__(self.object, finder)
+        self.theory.__call__(self.object, finder)
 
     def __str__(self):
         return '(object: ' \

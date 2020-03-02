@@ -11,8 +11,8 @@ class SimilarTriangle(Relationship):
                  id_: str, 
                  triangle1: Triangle, 
                  triangle2: Triangle, 
-                 ratio: float,
-                 corresponding: List[Tuple[Angle, Angle]]):
+                 corresponding: List[Tuple[Angle, Angle]],
+                 ratio: float,):
         super(SimilarTriangle, self).__init__(id_)
         self.triangle1 = triangle1
         self.triangle2 = triangle2
