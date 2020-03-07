@@ -13,7 +13,7 @@ class Parser(object):
         self.angle_dict = {}
         self.target_dict = []
         self.line_alias = {}
-        self._collineation_set = []
+        self._collineation_list = []
 
     def link(self, *points) -> Line:
         n = len(points)
@@ -22,7 +22,7 @@ class Parser(object):
             self._points.add(p.id)
         
         if n >= 3:
-            self._collineation_set.append([p.id for p in points])
+            self._collineation_list.append([p.id for p in points])
 
         # Initialize line alias
         ends_str = points[0].id + points[-1].id
@@ -125,9 +125,55 @@ class Parser(object):
 
         # Generate relationships.
         collineations = {}
-        for col in self._collineation_set:
-            col_id = ''.join([p for p in col])
+        for col in self._collineation_list:
+            col_id = 'Collineation ' + ''.join([p for p in col])
             collineations[col_id] = Collineation(col_id, points=col)
+
+        # Generate opposite vertival angles.
+        opposite_angles = {}
+        n_cols = len(self._collineation_list)
+        for i in range(n_cols):
+            for j in range(i + 1, n_cols):
+                col1 = self._collineation_list[i]
+                col2 = self._collineation_list[j]
+                common = list(set(col1) & set(col2))
+                if len(common) != 1:
+                    continue
+                vertex = common[0]
+                if vertex in [col1[0], col1[-1], col2[0], col2[-1]]:
+                    continue
+
+                angle1_1 = find_angle_by_points(col1[0], vertex, col2[0])
+                angle1_2 = find_angle_by_points(col1[-1], vertex, col2[-1])
+                rid = ' '.join(['OppositeAngle', angle1_1.id, angle1_2.id])
+                opposite_angles[rid] = OppositeVerticalAngle(rid, 
+                    angle1=angle1_1, angle2=angle1_2, vertex=vertex)
+
+                angle2_1 = find_angle_by_points(col1[0], vertex, col2[-1])
+                angle2_2 = find_angle_by_points(col1[-1], vertex, col2[0])
+                rid = ' '.join(['OppositeAngle', angle2_1.id, angle2_2.id])
+                opposite_angles[rid] = OppositeVerticalAngle(rid, 
+                    angle1=angle2_1, angle2=angle2_2, vertex=vertex)
+
+
+        # Generate supplementary angles.
+        supplementary_angles = {}
+        for col in self._collineation_list:
+            for p in col[1:-1]:
+                for adj_p in self._adj_table[p]:
+                    if adj_p == col[0] or adj_p == col[-1]:
+                        continue
+                    angle1 = find_angle_by_points(col[0], p, adj_p)
+                    angle2 = find_angle_by_points(col[-1], p, adj_p)
+                    rid = ' '.join(['SupplementaryAngle', angle1.id, angle2.id])
+                    supplementary_angles[rid] = \
+                        SupplementaryAngle(rid, angle1=angle1, angle2=angle2)
+
+        
+        print('collineations: ', sorted(collineations.keys()))
+        print('opposite angles: ', sorted(opposite_angles.keys()))
+        print('supplementary angles: ', sorted(supplementary_angles.keys()))
+
 
 
         self.entity_container.add_entity(*(points.values()))
@@ -157,7 +203,7 @@ class Parser(object):
     def _is_collineation(self, *points):
         if len(points) < 3:
             return True
-        for col in self._collineation_set:
+        for col in self._collineation_list:
             on_a_line = True
             for p in points:
                 if p not in col:
