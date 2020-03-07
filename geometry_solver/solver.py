@@ -60,7 +60,6 @@ class Solver(object):
             self._solve_equation()
             self._add_new_objs(new_objects, theory_obj_pairs)
             print('epoch {}: chose {} to search.'.format(epoch, pair))
-            print('====================', len(theory_obj_pairs), '===========================')
             epoch += 1
 
         if self._solved:

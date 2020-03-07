@@ -6,6 +6,7 @@ from sympy import Symbol
 
 from geometry_solver.entities.entity import Entity
 from geometry_solver.relationships.relationship import Relationship
+from geometry_solver.entities.point import Point
 from geometry_solver.entities.line import Line
 from geometry_solver.entities.angle import Angle
 from geometry_solver import new_objects
@@ -29,3 +30,8 @@ def symbol(object_: Union[Entity, Relationship],
 def add_new_object(object_: Union[Entity, Relationship]) -> None:
     new_objects.add(object_)
 
+
+def points(*ids):
+    """Create a seris of points"""
+    ps = [Point(i) for i in ids]
+    return ps
