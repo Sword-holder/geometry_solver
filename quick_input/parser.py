@@ -47,6 +47,7 @@ class Parser(object):
 
 
     def parse(self) -> Problem:
+        """This function is used to generate entities automatically."""
 
         print('Using intelligent parser...')
 
