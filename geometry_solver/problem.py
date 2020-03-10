@@ -28,7 +28,7 @@ class Problem(object):
         return '(Problem: ' \
             + '\n\tentity: ' \
             + str(self.entity) \
-            + '\n\trelationship: ' \
+            + '\n\trelationship: \n' \
             + str(relationship_str) \
             + ')'
 

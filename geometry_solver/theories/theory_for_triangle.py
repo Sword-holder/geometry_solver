@@ -57,36 +57,10 @@ def the_law_of_cosines(triangle: Triangle,
 @tm.theoried(Triangle)
 def the_law_of_sines(triangle: Triangle,
                      finder: Finder) -> None:
-    known_angles = triangle.known_angles
-    if len(known_angles) == 1 and known_angles[0].angle >= 90:
-        # if only one angle is known and it larger than 90 degree,
-        # asin only has one solution.
-        angle = known_angles[0]
-        opposite_side = triangle.opposite_side(angle)
-        if opposite_side.length is not None:
-            for side in triangle.adjacent_sides(angle):
-                if side.length is not None:
-                    unknown_angle = triangle.opposite_angle(side)
-                    sin_angle = math.sin(to_radian_measure(angle.angle)) * \
-                        (side.length / opposite_side.length)
-                    unknown_angle.angle = to_degree_measure(
-                        math.asin(sin_angle))
-                    solving_path.append_deduction(
-                        theory=zh_theory['the_law_of_sines'],
-                        eq='Angle_{0} = arcsin(sin(Angle_{1}) * (Line_{2} / Line_{3}))'.format(unknown_angle.id, angle.id, side.id, opposite_side.id),
-                        result=unknown_angle.angle)
-                    return
-    else:
-        for angle in triangle.angles:
-            side = triangle.opposite_side(angle)
-            if angle.angle is not None:
-                yield symbol(side, 'length') / sympy.sin(to_radian_measure(symbol(angle, 'angle'))) \
-                    - 2 * symbol(triangle, 'r_outer')
-
     # known_angles = triangle.known_angles
-    # if len(known_angles) == 0:
-    #     return
-    # elif len(known_angles) == 1:
+    # if len(known_angles) == 1 and known_angles[0].angle >= 90:
+    #     # if only one angle is known and it larger than 90 degree,
+    #     # asin only has one solution.
     #     angle = known_angles[0]
     #     opposite_side = triangle.opposite_side(angle)
     #     if opposite_side.length is not None:
@@ -102,20 +76,46 @@ def the_law_of_sines(triangle: Triangle,
     #                     eq='Angle_{0} = arcsin(sin(Angle_{1}) * (Line_{2} / Line_{3}))'.format(unknown_angle.id, angle.id, side.id, opposite_side.id),
     #                     result=unknown_angle.angle)
     #                 return
-    # elif len(known_angles) > 1:
-    #     opposite_sides = \
-    #         [triangle.opposite_side(angle) for angle in known_angles]
-    #     for index1, side1 in enumerate(opposite_sides):
-    #         for index2, side2 in enumerate(opposite_sides):
-    #             if side1.length is None and side2.length is not None:
-    #                 angle1 = to_radian_measure(known_angles[index1].angle)
-    #                 angle2 = to_radian_measure(known_angles[index2].angle)
-    #                 side1.length = side2.length * math.sin(angle1) / math.sin(angle2)
-    #                 solving_path.append_deduction(
-    #                     theory=zh_theory['the_law_of_sines'],
-    #                     eq='Line_{0} = Line_{1} * sin({2}) / sin({3})'.format(side1.id, side2.id, known_angles[index1].id, known_angles[index2].id),
-    #                     result=side1.length)
-    #                 return
+    # else:
+    #     for angle in triangle.angles:
+    #         side = triangle.opposite_side(angle)
+    #         if angle.angle is not None:
+    #             yield symbol(side, 'length') / sympy.sin(to_radian_measure(symbol(angle, 'angle'))) \
+    #                 - 2 * symbol(triangle, 'r_outer')
+
+    known_angles = triangle.known_angles
+    if len(known_angles) == 0:
+        return
+    elif len(known_angles) == 1:
+        angle = known_angles[0]
+        opposite_side = triangle.opposite_side(angle)
+        if opposite_side.length is not None:
+            for side in triangle.adjacent_sides(angle):
+                if side.length is not None:
+                    unknown_angle = triangle.opposite_angle(side)
+                    sin_angle = math.sin(to_radian_measure(angle.angle)) * \
+                        (side.length / opposite_side.length)
+                    unknown_angle.angle = to_degree_measure(
+                        math.asin(sin_angle))
+                    solving_path.append_deduction(
+                        theory=zh_theory['the_law_of_sines'],
+                        eq='Angle_{0} = arcsin(sin(Angle_{1}) * (Line_{2} / Line_{3}))'.format(unknown_angle.id, angle.id, side.id, opposite_side.id),
+                        result=unknown_angle.angle)
+                    return
+    elif len(known_angles) > 1:
+        opposite_sides = \
+            [triangle.opposite_side(angle) for angle in known_angles]
+        for index1, side1 in enumerate(opposite_sides):
+            for index2, side2 in enumerate(opposite_sides):
+                if side1.length is None and side2.length is not None:
+                    angle1 = to_radian_measure(known_angles[index1].angle)
+                    angle2 = to_radian_measure(known_angles[index2].angle)
+                    side1.length = side2.length * math.sin(angle1) / math.sin(angle2)
+                    solving_path.append_deduction(
+                        theory=zh_theory['the_law_of_sines'],
+                        eq='Line_{0} = Line_{1} * sin({2}) / sin({3})'.format(side1.id, side2.id, known_angles[index1].id, known_angles[index2].id),
+                        result=side1.length)
+                    return
 
 
 @tm.theoried(Triangle)

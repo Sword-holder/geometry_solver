@@ -6,3 +6,4 @@ from tests.basic.test_vertical_angle import test_vertical_angle
 from tests.basic.test_supplementary_angle import test_supplementary_angle
 from tests.basic.test_parallel import test_parallel
 from tests.basic.test_similar_triangle import test_similar_triangle
+from tests.basic.test_perpendicular import test_perpendicular, test_perpendicular2

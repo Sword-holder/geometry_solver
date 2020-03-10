@@ -36,7 +36,7 @@ class Solver(object):
     def __init__(self, problem: Problem, targets: List[Target] = []):
         self._problem = problem
         self._targets = []
-        self._finder = Finder(problem.entity)
+        self._finder = Finder(problem.entity, problem.relationships)
 
     def add_target(self, target: Target) -> None:
         self._targets.append(target)
@@ -56,10 +56,10 @@ class Solver(object):
             if not theory_obj_pairs:
                 break
             pair = np.random.choice(list(theory_obj_pairs))
+            print('epoch {}: chose {} to search.'.format(epoch, pair))
             pair.deduct(self._finder)
             self._solve_equation()
             self._add_new_objs(new_objects, theory_obj_pairs)
-            print('epoch {}: chose {} to search.'.format(epoch, pair))
             epoch += 1
 
         if self._solved:

@@ -1,19 +1,28 @@
 from geometry_solver.entities import Angle, Entity, Line, Point, Triangle
-from geometry_solver.relationships import Collineation, OppositeVerticalAngle, SupplementaryAngle
+from geometry_solver.relationships import Collineation, OppositeVerticalAngle, SupplementaryAngle, CommonVertexAngle, NAngleSector, Perpendicular
 from geometry_solver import Problem, Solver, Target, TargetType
 
 
 class Parser(object):
 
     def __init__(self):
+        self.initialize()
+
+    def initialize(self):
+        self.env = {}
+        self.problem = None
         self.entity_container = Entity('Entity container')
         self._points = set()
         self._lines = set()
         self._adj_table = {}
-        self.angle_dict = {}
-        self.target_dict = []
-        self.line_alias = {}
+        self._angle_dict = {}
+        self._line_dict = {}
+        self._target_dict = []
+        self._line_alias = {}
         self._collineation_list = []
+        self._common_vertex = []
+        self._angle_split = []
+        self._perpendicular_pairs = []
 
     def link(self, *points) -> Line:
         n = len(points)
@@ -28,8 +37,8 @@ class Parser(object):
         ends_str = points[0].id + points[-1].id
         for i in range(n):
             for j in range(i + 1, n):
-                self.line_alias[points[i].id + points[j].id] = ends_str
-                self.line_alias[points[j].id + points[i].id] = ends_str[::-1]
+                self._line_alias[points[i].id + points[j].id] = ends_str
+                self._line_alias[points[j].id + points[i].id] = ends_str[::-1]
 
 
         for i in range(n):
@@ -46,8 +55,10 @@ class Parser(object):
                 self._adj_table[p.id].append(adj_p.id) 
 
 
-    def parse(self) -> Problem:
+    def get_problem(self) -> Problem:
         """This function is used to generate entities automatically."""
+        if self.problem is not None:
+            return self.problem
 
         print('Using intelligent parser...')
 
@@ -63,7 +74,8 @@ class Parser(object):
         for lid in self._lines:
             lid = sort_string(lid)
             ends = [points[pid] for pid in lid]
-            line = Line(lid, ends=ends, length=None)
+            length = self._look_up_length(lid)
+            line = Line(lid, ends=ends, length=length)
             lines[lid] = line
         
 
@@ -77,8 +89,8 @@ class Parser(object):
             for i in range(n_adj):
                 for j in range(i + 1, n_adj):
                     node1, node2 = adj_nodes[i], adj_nodes[j]
-                    node1 = self.line_alias[node1 + vertex][0]
-                    node2 = self.line_alias[vertex + node2][1]
+                    node1 = self._line_alias[node1 + vertex][0]
+                    node2 = self._line_alias[vertex + node2][1]
                     # Angle with zero degree
                     if node1 == node2:
                         continue
@@ -93,13 +105,9 @@ class Parser(object):
                     degree = self._look_up_degree(aid)
                     angles[aid] = Angle(aid, sides=sides, vertex=points[vertex], angle=degree)
 
-
+        
         def find_angle_by_points(pid1, vertex, pid2):
-            pid1 = self.line_alias[pid1 + vertex][0]
-            pid2 = self.line_alias[vertex + pid2][1]
-            if pid1 > pid2:
-                pid1, pid2 = pid2, pid1
-            return angles[''.join([pid1, vertex, pid2])]
+            return angles[self._extend_angle(pid1, vertex, pid2)]
 
 
         # Generate triangle.
@@ -128,7 +136,8 @@ class Parser(object):
         collineations = {}
         for col in self._collineation_list:
             col_id = 'Collineation ' + ''.join([p for p in col])
-            collineations[col_id] = Collineation(col_id, points=col)
+            ps = [points[pid] for pid in col]
+            collineations[col_id] = Collineation(col_id, points=ps)
 
         # Generate opposite vertival angles.
         opposite_angles = {}
@@ -162,7 +171,7 @@ class Parser(object):
         for col in self._collineation_list:
             for p in col[1:-1]:
                 for adj_p in self._adj_table[p]:
-                    if adj_p == col[0] or adj_p == col[-1]:
+                    if adj_p in col:
                         continue
                     angle1 = find_angle_by_points(col[0], p, adj_p)
                     angle2 = find_angle_by_points(col[-1], p, adj_p)
@@ -171,26 +180,79 @@ class Parser(object):
                         SupplementaryAngle(rid, angle1=angle1, angle2=angle2)
 
         
+        # Generate common vertex angles.
+        common_vertex_angles = {}
+        for v, arounds in self._common_vertex:
+            vertex = points[v]
+            lines_ = []
+            for pid in arounds:
+                lines_.append(find_line_by_ends(v, pid))
+            rid = ' '.join(['CommonVertexAngle', v, ''.join(arounds)])
+            r = CommonVertexAngle(rid, vertex=vertex, lines=lines_)
+            common_vertex_angles[rid] = r
+
+        
+        # Generate n angles sector.
+        n_angles_sector = {}
+        for aid, lid, ratio in self._angle_split:
+            near_line = find_line_by_ends(*self._line_alias[aid[:2]])
+            angle_ = find_angle_by_points(*aid)
+            line_ = find_line_by_ends(*lid)
+            rid = ' '.join([angle_.id, line_.id, str(ratio), near_line.id])
+            r = NAngleSector(rid, angle=angle_, line=line_, ratio=ratio, nearer_line=near_line)
+            n_angles_sector[rid] = r
+
+        # Generate perpendicular relationship.
+        perpendiculars = {}
+        for lid1, lid2 in self._perpendicular_pairs:
+            rid = ' '.join(['Perpendicular', lid1, lid2])
+            r = Perpendicular(rid,
+                              line1=lines[lid1],
+                              line2=lines[lid2],
+                              foot_point=None)
+            perpendiculars[rid] = r
+
+        
         print('collineations: ', sorted(collineations.keys()))
         print('opposite angles: ', sorted(opposite_angles.keys()))
         print('supplementary angles: ', sorted(supplementary_angles.keys()))
+        print('common vertex angles: ', sorted(common_vertex_angles.keys()))
+        print('n angles sector: ', sorted(n_angles_sector.keys()))
+        print('perpendiculars: ', sorted(perpendiculars.keys()))
 
+        relationships = []
+        relationships += collineations.values()
+        relationships += opposite_angles.values()
+        relationships += supplementary_angles.values()
+        relationships += common_vertex_angles.values()
+        relationships += n_angles_sector.values()
+        relationships += perpendiculars.values()
 
-
+        self.env['points'] = points
+        self.env['lines'] = lines
+        self.env['angles'] = angles
+        self.env['triangles'] = triangles
+        self.env['relationships'] = relationships
         self.entity_container.add_entity(*(points.values()))
         self.entity_container.add_entity(*(lines.values()))
         self.entity_container.add_entity(*(angles.values()))
         self.entity_container.add_entity(*(triangles.values()))
 
-        problem = Problem(entity=self.entity_container)
-        
+        self.problem = Problem(entity=self.entity_container, relationships=relationships)
+
+        return self.problem
+
+
+    def parse(self):
+        problem = self.get_problem()
+
         solver = Solver(problem)
         
         print('Create a triangle successfully!')
         print(problem)
 
         # Add targets.
-        for id_, type_, attr in self.target_dict:
+        for id_, type_, attr in self._target_dict:
             target = Target(TargetType.EVALUATION,
                     entity=problem.entity.find_child(id_, type_),
                     attr=attr)
@@ -198,7 +260,7 @@ class Parser(object):
         
         solver.solve()
     
-        # return problem
+        return problem
 
 
     def _is_collineation(self, *points):
@@ -213,6 +275,21 @@ class Parser(object):
             if on_a_line:
                 return True
         return False
+
+
+    def _extend_angle(self, pid1, vertex, pid2):
+        pid1 = self._line_alias[pid1 + vertex][0]
+        pid2 = self._line_alias[vertex + pid2][1]
+        if pid1 > pid2:
+            pid1, pid2 = pid2, pid1
+        return ''.join([pid1, vertex, pid2])
+
+
+    def _retrieve_angle(self, angle_id):
+        pid1, vertex, pid2 = angle_id
+        pid1, pid2 = sorted([pid1, pid2])
+        aid = self._extend_angle(pid1, vertex, pid2)
+        return aid
 
 
     def _analyse_triangle(self):
@@ -236,14 +313,42 @@ class Parser(object):
 
 
     def set_angle(self, angle_id, degree):
-        self.angle_dict[angle_id] = degree
+        aid = self._retrieve_angle(angle_id)
+        self._angle_dict[aid] = degree
+
+
+    def set_length(self, line_id, length):
+        line_id = ''.join(sorted(line_id))
+        self._line_dict[line_id] = length
 
 
     def _look_up_degree(self, aid):
-        if aid not in self.angle_dict:
+        return self._loop_up(aid, self._angle_dict)
+
+    def _look_up_length(self, lid):
+        return self._loop_up(lid, self._line_dict)
+
+    def _loop_up(self, id_, dict_):
+        if id_ not in dict_:
             return None
-        return self.angle_dict[aid]
+        return dict_[id_]
 
     def set_target(self, id_, type_, attr):
-        self.target_dict.append((id_, type_, attr))
+        if type_ == Line:
+            id_ = ''.join(sorted(id_))
+        if type_ == Angle:
+            id_ = self._retrieve_angle(id_)
+        self._target_dict.append((id_, type_, attr))
+
+
+    def add_common_vertex_angle(self, vertex_id, around_points):
+        self._common_vertex.append((vertex_id, around_points))
+
+
+    def add_angle_split(self, angle_id, line_id, ratio):
+        self._angle_split.append((angle_id, line_id, ratio))
+
+    
+    def add_perpendicular(self, line_id1, line_id2):
+        self._perpendicular_pairs.append((line_id1, line_id2))
 
