@@ -1,5 +1,5 @@
 from geometry_solver.entities import Angle, Entity, Line, Point, Triangle
-from geometry_solver.relationships import Collineation, OppositeVerticalAngle, SupplementaryAngle, CommonVertexAngle, NAngleSector, Perpendicular
+from geometry_solver.relationships import Collineation, OppositeVerticalAngle, SupplementaryAngle, CommonVertexAngle, NAngleSector, NLineSector, Perpendicular
 from geometry_solver import Problem, Solver, Target, TargetType
 
 
@@ -22,6 +22,7 @@ class Parser(object):
         self._collineation_list = []
         self._common_vertex = []
         self._angle_split = []
+        self._line_split = []
         self._perpendicular_pairs = []
 
     def link(self, *points) -> Line:
@@ -202,6 +203,19 @@ class Parser(object):
             r = NAngleSector(rid, angle=angle_, line=line_, ratio=ratio, nearer_line=near_line)
             n_angles_sector[rid] = r
 
+
+
+        n_line_sector = {}
+        for lid, pid, ratio in self._line_split:
+            rid = ' '.join(['NLineSector', lid, pid, str(ratio)])
+            r = NLineSector(rid, 
+                            line=lines[lid], 
+                            point=points[pid], 
+                            ratio=ratio, 
+                            nearer_point=points[lid[0]])
+            n_line_sector[rid] = r
+
+
         # Generate perpendicular relationship.
         perpendiculars = {}
         for lid1, lid2 in self._perpendicular_pairs:
@@ -218,7 +232,9 @@ class Parser(object):
         print('supplementary angles: ', sorted(supplementary_angles.keys()))
         print('common vertex angles: ', sorted(common_vertex_angles.keys()))
         print('n angles sector: ', sorted(n_angles_sector.keys()))
+        print('n line sector: ', sorted(n_line_sector.keys()))
         print('perpendiculars: ', sorted(perpendiculars.keys()))
+        
 
         relationships = []
         relationships += collineations.values()
@@ -227,6 +243,7 @@ class Parser(object):
         relationships += common_vertex_angles.values()
         relationships += n_angles_sector.values()
         relationships += perpendiculars.values()
+        relationships += n_line_sector.values()
 
         self.env['points'] = points
         self.env['lines'] = lines
@@ -347,6 +364,10 @@ class Parser(object):
 
     def add_angle_split(self, angle_id, line_id, ratio):
         self._angle_split.append((angle_id, line_id, ratio))
+
+
+    def add_line_split(self, line_id, point_id, ratio):
+        self._line_split.append((line_id, point_id, ratio))
 
     
     def add_perpendicular(self, line_id1, line_id2):

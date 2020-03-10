@@ -1,22 +1,21 @@
-from quick_input.abc import A, B, C, D, F
-from quick_input import link, submit, set_angle, get_angle, split_angle, set_common_vertex_angles, perpendicular
+from quick_input.abc import A, B, C, M, N
+from quick_input import link, submit, set_length, get_length, perpendicular, split_line
 
 
 def test_parser_example4():
     link(A, B)
-    link(A, F)
-    link(A, D)
-    link(A, C)
-    link(B, F, D, C)
+    link(A, N, C)
+    link(B, M, C)
+    link(M, N)
 
-    set_angle('ABC', 36)
-    set_angle('ACB', 76)
+    set_length('AB', 5)
+    set_length('AC', 5)
+    set_length('BC', 6)
 
-    split_angle('BAC', 'AF', ratio=0.5)
-    set_common_vertex_angles('A', ['B', 'F', 'D', 'C'])
-    perpendicular('AD', 'BC')
-
-    get_angle('DAF')
+    perpendicular('MN', 'AC')
+    split_line('BC', 'M', 0.5)
+    
+    get_length('MN')
 
     submit()
 
