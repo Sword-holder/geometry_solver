@@ -136,6 +136,16 @@ def helen_formula(triangle: Triangle,
 
 
 @tm.theoried(Triangle)
+def triangle_circumference(triangle: Triangle,
+                           finder: Finder) -> None:
+    side1, side2, side3 = triangle.sides
+    yield symbol(triangle, 'circumference') \
+          - symbol(side1, 'length') \
+          - symbol(side2, 'length') \
+          - symbol(side3, 'length')
+
+
+@tm.theoried(Triangle)
 def right_triangle_determination(triangle: Triangle,
                                  finder: Finder) -> None:
     for angle in triangle.known_angles:

@@ -54,15 +54,15 @@ def _find_alternate_angels(col1: Collineation,
 @tm.theoried(Parallel)
 def perpendicular_angle(parallel: Parallel,
                        finder: Finder) -> None:
-    col1 = parallel.colllineation1
-    col2 = parallel.colllineation2
-    if col1 is None:
-        col1 = Collineation(parallel.line1.id, parallel.line1.ends)
-    if col2 is None:
-        col2 = Collineation(parallel.line2.id, parallel.line2.ends)
+    line1 = finder.extend_line(parallel.line1)
+    line2 = finder.extend_line(parallel.line2)
+    link1 = finder.find_link_by_ends(*line1.ends)
+    link2 = finder.find_link_by_ends(*line2.ends)
+    col1 = Collineation('Collineation ' + line1.id, points=link1)
+    col2 = Collineation('Collineation ' + line2.id, points=link2)
 
     for angle1, angle2 in _find_alternate_angels(col1, col2, finder):
         yield symbol(angle1, 'angle') - symbol(angle2, 'angle')
 
-    
+
 

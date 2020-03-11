@@ -1,5 +1,5 @@
 from quick_input.abc import A, B, C, D, E, F
-from quick_input import link, submit, set_angle, get_angle
+from quick_input import link, clear, set_angle, get_angle
 
 
 def test_advanced_parser():
@@ -13,7 +13,7 @@ def test_advanced_parser():
     set_angle('ABE', 40)
     set_angle('ACD', 20)
 
-    get_angle('EFC')
+    assert round(get_angle('EFC'), 6) == 75
 
-    submit()
+    clear()
 

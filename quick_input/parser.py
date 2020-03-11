@@ -1,5 +1,6 @@
 from geometry_solver.entities import Angle, Entity, Line, Point, Triangle
-from geometry_solver.relationships import Collineation, OppositeVerticalAngle, SupplementaryAngle, CommonVertexAngle, NAngleSector, NLineSector, Perpendicular
+from geometry_solver.relationships import Collineation, OppositeVerticalAngle,\
+     SupplementaryAngle, CommonVertexAngle, NAngleSector, NLineSector, Perpendicular, Parallel
 from geometry_solver import Problem, Solver, Target, TargetType
 
 
@@ -24,6 +25,7 @@ class Parser(object):
         self._angle_split = []
         self._line_split = []
         self._perpendicular_pairs = []
+        self._parallel_sets = []
 
     def link(self, *points) -> Line:
         n = len(points)
@@ -226,6 +228,17 @@ class Parser(object):
                               foot_point=None)
             perpendiculars[rid] = r
 
+        # Generate parallel relationship.
+        parallels = {}
+        for line_ids in self._parallel_sets:
+            line_num = len(line_ids)
+            for i in range(line_num):
+                for j in range(i + 1, line_num):
+                    line1 = lines[line_ids[i]]
+                    line2 = lines[line_ids[j]]
+                    rid = ' '.join(['Parallel', line_ids[i], line_ids[j]])
+                    parallels[rid] = Parallel(rid, line1, line2)
+
         
         print('collineations: ', sorted(collineations.keys()))
         print('opposite angles: ', sorted(opposite_angles.keys()))
@@ -234,7 +247,7 @@ class Parser(object):
         print('n angles sector: ', sorted(n_angles_sector.keys()))
         print('n line sector: ', sorted(n_line_sector.keys()))
         print('perpendiculars: ', sorted(perpendiculars.keys()))
-        
+        print('parallels: ', sorted(parallels.keys()))
 
         relationships = []
         relationships += collineations.values()
@@ -244,6 +257,7 @@ class Parser(object):
         relationships += n_angles_sector.values()
         relationships += perpendiculars.values()
         relationships += n_line_sector.values()
+        relationships += parallels.values()
 
         self.env['points'] = points
         self.env['lines'] = lines
@@ -267,7 +281,7 @@ class Parser(object):
         
         print('Create a triangle successfully!')
         print(problem)
-
+        
         # Add targets.
         for id_, type_, attr in self._target_dict:
             target = Target(TargetType.EVALUATION,
@@ -350,12 +364,25 @@ class Parser(object):
             return None
         return dict_[id_]
 
-    def set_target(self, id_, type_, attr):
+    def _type_id_transfer(self, id_, type_):
+        new_id = ''
         if type_ == Line:
-            id_ = ''.join(sorted(id_))
-        if type_ == Angle:
-            id_ = self._retrieve_angle(id_)
-        self._target_dict.append((id_, type_, attr))
+            new_id = ''.join(sorted(id_))
+        elif type_ == Angle:
+            new_id = self._retrieve_angle(id_)
+        elif type_ == Triangle:
+            new_id = ''.join(sorted(id_))
+        return new_id
+
+    def set_target(self, id_, type_, attr):
+        id_ = self._type_id_transfer(id_, type_)
+        # self._target_dict.append((id_, type_, attr))
+        # Currently only one target solver is supported.
+        self._target_dict = [(id_, type_, attr)]
+
+    def get_target(self, problem, id_, type_, attr):
+        id_ = self._type_id_transfer(id_, type_)
+        return getattr(problem.entity.find_child(id_, type_), attr)
 
 
     def add_common_vertex_angle(self, vertex_id, around_points):
@@ -372,4 +399,7 @@ class Parser(object):
     
     def add_perpendicular(self, line_id1, line_id2):
         self._perpendicular_pairs.append((line_id1, line_id2))
+
+    def add_parallele(self, *line_ids):
+        self._parallel_sets.append(line_ids)
 

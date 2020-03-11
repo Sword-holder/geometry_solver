@@ -58,5 +58,5 @@ def test_similar_triangle():
     solver = Solver(problem)
     solver.add_target(target)
     problem = solver.solve()
-    assert problem.entity.find_child('EF', Line).length == 2
+    assert abs(problem.entity.find_child('EF', Line).length - 2) < 0.000001
 

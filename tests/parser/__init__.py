@@ -4,3 +4,6 @@ from tests.parser.test_parser_example1 import test_parser_example1
 from tests.parser.test_parser_example2 import test_parser_example2
 from tests.parser.test_parser_example3 import test_parser_example3
 from tests.parser.test_parser_example4 import test_parser_example4
+from tests.parser.test_parser_example5 import test_parser_example5
+from tests.parser.test_parser_example6 import test_parser_example6
+from tests.parser.test_parser_example7 import test_parser_example7

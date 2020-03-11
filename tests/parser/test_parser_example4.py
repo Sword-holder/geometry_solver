@@ -1,5 +1,5 @@
 from quick_input.abc import A, B, C, M, N
-from quick_input import link, submit, set_length, get_length, perpendicular, split_line
+from quick_input import link, clear, set_length, get_length, perpendicular, split_line
 
 
 def test_parser_example4():
@@ -15,7 +15,7 @@ def test_parser_example4():
     perpendicular('MN', 'AC')
     split_line('BC', 'M', 0.5)
     
-    get_length('MN')
+    assert round(get_length('MN'), 6) == 2.4
 
-    submit()
+    clear()
 

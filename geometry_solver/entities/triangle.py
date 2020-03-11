@@ -14,10 +14,11 @@ class Triangle(Area):
                  vertexes: List[Point], 
                  sides: List[Line], 
                  angles: List[Angle], 
-                 area: float,
+                 area: float=None,
+                 circumference: float=None,
                  r_inner: float=None,
                  r_outer: float=None):
-        super(Triangle, self).__init__(id_, vertexes, sides, angles, area)
+        super(Triangle, self).__init__(id_, vertexes, sides, angles, area, circumference)
         self.r_inner = r_inner
         self.r_outer = r_outer
         self.state = TriangleState()

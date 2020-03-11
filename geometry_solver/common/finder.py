@@ -112,6 +112,13 @@ class Finder(object):
         end2 = self._point_name_map[end_str2]
         return self.find_line_by_ends(end1, end2)
 
+    def find_link_by_ends(self, end1, end2):
+        for lk in self._link:
+            if (lk[0] == end1.id and lk[-1] == end2.id) or \
+                    (lk[0] == end2.id and lk[-1] == end1.id):
+                return [self._point_name_map[pid] for pid in lk]
+        return []
+
     def _extend_pid(self, pid1, pid2):
         return self._line_alias[tuple([pid1, pid2])]
 

@@ -22,6 +22,9 @@ from tests.parser import test_parser_example1
 from tests.parser import test_parser_example2
 from tests.parser import test_parser_example3
 from tests.parser import test_parser_example4
+from tests.parser import test_parser_example5
+from tests.parser import test_parser_example6
+from tests.parser import test_parser_example7
 
 
 # test_triangle_angle_reduction()
@@ -40,7 +43,6 @@ from tests.parser import test_parser_example4
 # test_simple_example2()
 # test_simple_example3()
 # test_simple_example4()
-# test_simple_example5()
 
 # test_proof_rt()
 
@@ -49,4 +51,7 @@ from tests.parser import test_parser_example4
 # test_parser_example1()
 # test_parser_example2()
 # test_parser_example3()
-test_parser_example4()
+# test_parser_example4()
+# test_parser_example5()
+# test_parser_example6()
+test_parser_example7()

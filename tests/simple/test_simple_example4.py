@@ -75,5 +75,5 @@ def test_simple_example4():
     solver = Solver(problem)
     solver.add_target(target)
     problem = solver.solve()
-    # assert problem.entity.find_child('DAE', type_=Angle).angle == 20
+    assert round(problem.entity.find_child('MN', type_=Line).length, 6) == 2.4
 

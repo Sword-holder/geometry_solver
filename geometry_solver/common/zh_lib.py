@@ -13,5 +13,6 @@ zh_theory = {
     'the_law_of_sines': '正弦定理',
     'helen_formula': '海伦公式',
     'similar_triangle_ratio': '相似三角形对应边比例关系',
-    'similar_triangle_angle_equality': '相似三角形对应角相等'
+    'similar_triangle_angle_equality': '相似三角形对应角相等',
+    'triangle_circumference': '三角形周长计算公式'
 }

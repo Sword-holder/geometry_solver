@@ -1,12 +1,12 @@
-from quick_input.abc import A, B, C, D, O
-from quick_input import link, submit, set_angle, get_angle
+from quick_input.abc import A, B, C, D, E
+from quick_input import link, clear, set_angle, get_angle
 
 
 def test_parser_example1():
     link(A, D)
     link(A, B)
-    link(A, O, C)
-    link(B, O, D)
+    link(A, E, C)
+    link(B, E, D)
     link(B, C)
 
     set_angle('BAC', 60)
@@ -16,7 +16,7 @@ def test_parser_example1():
     set_angle('BAD', 90)
     set_angle('ABC', 90)
 
-    get_angle('AOB')
+    assert round(get_angle('AEB'), 6) == 75
 
-    submit()
+    clear()
 

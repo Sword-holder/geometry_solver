@@ -1,5 +1,5 @@
 from quick_input.abc import A, B, C, D, E
-from quick_input import link, submit, set_angle, get_angle, set_length, get_length
+from quick_input import link, clear, set_angle, get_angle, set_length, get_length
 
 
 def test_parser_example2():
@@ -12,6 +12,7 @@ def test_parser_example2():
 
     set_length('BD', 210)
 
-    get_length('DE')
+    result = get_length('DE')
+    assert abs(result - (3**(1/2) / 2) * 210) < 1e-6
 
-    submit()
+    clear()

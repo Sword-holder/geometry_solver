@@ -13,12 +13,14 @@ class Area(Entity):
                  vertexes: List[Point], 
                  sides: List[Line], 
                  angles: List[Angle], 
-                 area: float):
+                 area: float=None,
+                 circumference: float=None):
         super(Area, self).__init__(id_)
         self.vertexes = vertexes
         self.sides = sides
         self.angles = angles
         self.area = area
+        self.circumference = circumference
         children = vertexes + sides + angles
         self.add_entity(*children)
 
