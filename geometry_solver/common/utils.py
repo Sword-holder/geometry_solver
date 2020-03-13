@@ -9,7 +9,6 @@ from geometry_solver.relationships.relationship import Relationship
 from geometry_solver.entities.point import Point
 from geometry_solver.entities.line import Line
 from geometry_solver.entities.angle import Angle
-from geometry_solver import new_objects
 
 
 def to_degree_measure(radian):
@@ -27,8 +26,8 @@ def symbol(object_: Union[Entity, Relationship],
     return getattr(object_, attr)
 
 
-def add_new_object(object_: Union[Entity, Relationship]) -> None:
-    new_objects.add(object_)
+# def add_new_object(object_: Union[Entity, Relationship]) -> None:
+#     new_objects.add(object_)
 
 
 def points(*ids):

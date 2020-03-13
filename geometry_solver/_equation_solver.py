@@ -3,8 +3,6 @@ from typing import Any, List
 import sympy
 from sympy import Symbol, Number
 
-from geometry_solver import solving_path
-
 
 class EquationSolver(object):
 
@@ -15,14 +13,14 @@ class EquationSolver(object):
     def set_equation_group(self, key: Any, equation_set: List) -> None:
         self._equation_group[key] = equation_set
 
-    def solve(self):
+    def solve(self, solving_path):
         equation_set = []
         for _, value in self._equation_group.items():
             for eq in value:
                 if not isinstance(eq, Number):
                     equation_set.append(eq)
         result = sympy.solvers.solve(equation_set)
-        self._track_path(result)
+        self._track_path(result, solving_path)
         return result
 
     def clear(self):
@@ -31,7 +29,7 @@ class EquationSolver(object):
     def has_key(self, key: str) -> bool:
         return key in self._equation_group
 
-    def _track_path(self, result):
+    def _track_path(self, result, solving_path):
         if not result:
             return
         solved_attrs = []

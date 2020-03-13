@@ -17,8 +17,8 @@ class TheoryObjectPair(object):
     def __eq__(self, other):
         return self.object == other.object and self.theory == other.theory
 
-    def deduct(self, finder: Finder):
-        self.theory.__call__(self.object, finder)
+    def deduct(self, node):
+        self.theory.__call__(object_=self.object, node=node)
 
     def __str__(self):
         return '(object: ' \

@@ -5,9 +5,8 @@ import sympy
 from geometry_solver import theory_manager as tm
 from geometry_solver.entities.triangle import Triangle
 from geometry_solver.relationships.similar_triangle import SimilarTriangle
-from geometry_solver.common.utils import to_degree_measure, to_radian_measure, symbol, add_new_object
+from geometry_solver.common.utils import to_degree_measure, to_radian_measure, symbol
 from geometry_solver.common.finder import Finder
-from geometry_solver import solving_path
 from geometry_solver.common.zh_lib import zh_theory
 
 
@@ -64,6 +63,5 @@ def similar_triangle_determination(triangle: Triangle,
                 triangle2=t,
                 corresponding=corresponding,
                 ratio=ratio)
-            print(r)
-            add_new_object(r)
+            yield r
 

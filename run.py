@@ -44,7 +44,7 @@ from tests.parser import test_parser_example7
 # test_simple_example3()
 # test_simple_example4()
 
-# test_proof_rt()
+test_proof_rt()
 
 # test_basic_parser()
 # test_advanced_parser()
@@ -54,4 +54,4 @@ from tests.parser import test_parser_example7
 # test_parser_example4()
 # test_parser_example5()
 # test_parser_example6()
-test_parser_example7()
+# test_parser_example7()
