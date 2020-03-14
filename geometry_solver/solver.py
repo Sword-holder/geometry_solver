@@ -3,6 +3,7 @@ import queue
 import copy
 
 import numpy as np
+from tqdm import tqdm
 
 from geometry_solver.target import Target, TargetType
 from geometry_solver._equation_solver import EquationSolver
@@ -46,7 +47,7 @@ class Solver(object):
         self._targets_info.append(tg_dict)
 
 
-    def solve(self, policy='random'):
+    def solve(self, policy='bfs'):
 
         policy = policy.lower()
         print('solving problem....')
@@ -56,7 +57,7 @@ class Solver(object):
         self.root.targets_info = self._targets_info
 
         start_time = time.time()
-        
+
         if policy == 'random':
             final_node = self._random_search()
         elif policy == 'bfs':
@@ -82,17 +83,31 @@ class Solver(object):
         final_node = None
         q = queue.Queue()
         q.put(self.root)
-        while not q.full():
-            node = q.get()
-            if node.solved:
-                final_node = node
-                break
-            actions = node.valid_actions
-            for action in actions:
-                node_copy = copy.deepcopy(node)
-                success = node_copy.take_action(action)
-                if success:
-                    q.put(node_copy)
+        next_step_num = 1
+        current_step = 0
+        step = 0
+        while not q.empty():
+            acc_num = 0
+            for _ in tqdm(range(next_step_num), desc='Step {}'.format(current_step)):
+                step += 1
+                node = q.get()
+                if node.solved:
+                    final_node = node
+                    break
+                actions = node.valid_actions
+                for action in actions:
+                    node_copy = copy.deepcopy(node)
+                    success = node_copy.take_action(action)
+                    if success:
+                        acc_num += 1
+                        q.put(node_copy)
+            else:
+                next_step_num = acc_num
+                current_step += 1
+                continue
+            break
+
+        print('Use step: {}'.format(current_step))
         return final_node
     
 

@@ -37,7 +37,7 @@ def similar_triangle_determination(triangle: Triangle,
         return
     triangle_set = finder.find_all_triangles()
     for t in triangle_set:
-        if id(t) == id(triangle) or len(t.known_angles) < 3:
+        if t == triangle or len(t.known_angles) < 3:
             continue
         angles1 = [known_angles[0].angle, \
                    known_angles[1].angle, \

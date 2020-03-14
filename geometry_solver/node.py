@@ -31,7 +31,7 @@ class Node(object):
 
     @property
     def valid_actions(self) -> List:
-        return list(self._theory_obj_pairs)
+        return sorted(list(self._theory_obj_pairs))
 
     def take_action(self, pair: TheoryObjectPair) -> bool:
         self.success = False
@@ -41,7 +41,9 @@ class Node(object):
         return self.success
 
     def _solve_equation(self) -> None:
+        # print(self.equation_pool)
         result = self.equation_pool.solve(self.solving_path)
+        # print(result)
         if result:
             self._update_all_entities(result)
 

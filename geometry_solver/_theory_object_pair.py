@@ -17,6 +17,11 @@ class TheoryObjectPair(object):
     def __eq__(self, other):
         return self.object == other.object and self.theory == other.theory
 
+    def __lt__(self, other):
+        if self.object.id == other.object.id:
+            return self.theory.__name__ < other.theory.__name__
+        return self.object.id < other.object.id
+
     def deduct(self, node):
         self.theory.__call__(object_=self.object, node=node)
 

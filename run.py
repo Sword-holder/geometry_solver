@@ -40,11 +40,11 @@ from tests.parser import test_parser_example7
 
 # test_simple_example()
 # test_simple_example1()
-# test_simple_example2()
+test_simple_example2()
 # test_simple_example3()
 # test_simple_example4()
 
-test_proof_rt()
+# test_proof_rt()
 
 # test_basic_parser()
 # test_advanced_parser()

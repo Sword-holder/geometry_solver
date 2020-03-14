@@ -15,10 +15,10 @@ def _get_angles_fixed_ends(col1: Collineation,
                            end2: Point,
                            finder: Finder):
     for top_p in col1.points:
-        if id(top_p) == id(end1):
+        if top_p == end1:
             continue
         for bottom_p in col2.points:
-            if id(bottom_p) == id(end2):
+            if bottom_p == end2:
                 continue
             top_line = finder.find_line_by_ends(end1, top_p)
             middle_line = finder.find_line_by_ends(top_p, bottom_p)
