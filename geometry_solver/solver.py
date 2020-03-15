@@ -21,6 +21,8 @@ import geometry_solver.theories.theory_for_n_angle_sector
 import geometry_solver.theories.theory_for_parallel
 import geometry_solver.theories.theory_for_similar_triangle
 
+from geometry_solver.common.debug_utils import getsize
+
 
 class Solver(object):
 
@@ -47,7 +49,7 @@ class Solver(object):
         self._targets_info.append(tg_dict)
 
 
-    def solve(self, policy='bfs'):
+    def solve(self, policy='beam'):
 
         policy = policy.lower()
         print('solving problem....')
@@ -64,13 +66,15 @@ class Solver(object):
             final_node = self._bfs()
         elif policy == 'dfs':
             final_node = self._dfs()
+        elif policy == 'beam':
+            final_node = self._beam_search()
 
-        if final_node.solved:
+        if final_node is not None and final_node.solved:
             print('Solve problem successfully! Here are results:')
             for target in final_node.targets:
                 print(target)
         else:
-            print('The problem has no solution')
+            print('The problem has no solution!')
 
         print(final_node.solving_path)
         
@@ -94,13 +98,9 @@ class Solver(object):
                 if node.solved:
                     final_node = node
                     break
-                actions = node.valid_actions
-                for action in actions:
-                    node_copy = copy.deepcopy(node)
-                    success = node_copy.take_action(action)
-                    if success:
-                        acc_num += 1
-                        q.put(node_copy)
+                for node_copy in self._next_step_nodes(node):
+                    acc_num += 1
+                    q.put(node_copy)
             else:
                 next_step_num = acc_num
                 current_step += 1
@@ -141,4 +141,38 @@ class Solver(object):
             print('epoch {}: chose {} to search.'.format(epoch, pair))
             epoch += 1
         return self.root
+
+
+    def _beam_search(self, beam=20, max_step=None):
+        final_node = None
+        beam_nodes = [self.root]
+        step = 0
+        while max_step is None or step < max_step:
+            # Check termination.
+            for node in beam_nodes:
+                if node.solved:
+                    final_node = node
+                    break
+            else:
+                # Search next step.
+                step += 1
+                next_nodes = []
+                for node in tqdm(beam_nodes,  desc='Step {}'.format(step)):
+                    next_nodes += self._next_step_nodes(node)
+                np.random.shuffle(next_nodes)
+                beam_nodes = next_nodes[:beam]
+                continue
+            break
+        return final_node
+
+
+    def _next_step_nodes(self, node):
+        nodes = []
+        actions = node.valid_actions
+        for action in actions:
+            node_copy = copy.deepcopy(node)
+            success = node_copy.take_action(action)
+            if success:
+                nodes.append(node_copy)
+        return nodes
     

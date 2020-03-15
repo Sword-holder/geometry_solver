@@ -28,5 +28,6 @@ def perpendicular_angle(perpendicular: Perpendicular,
             line1_ = finder.find_line_by_ends(p1, cross_p)
             line2_ = finder.find_line_by_ends(p2, cross_p)
             angle = finder.find_angle_by_sides(line1_, line2_)
-            angle.angle = 90
+            yield symbol(angle, 'angle') - 90
+            # angle.angle = 90
 
